@@ -508,16 +508,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong4b9ee87"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 4b9ee87 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongf18beb5"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> f18beb5 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong4b9ee87" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongf18beb5" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 4b9ee87. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version f18beb5. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -573,6 +573,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+f18beb5
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-20
+</td>
+<td>
+Minor things
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+3118c12
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -640,11 +674,11 @@ library(ggstatsplot)</code></pre>
 <div id="processing-the-data" class="section level2">
 <h2>Processing the data</h2>
 <p>When you collect data from Bgee database you can explore the data in multiple different ways to extract knowledge for your research.</p>
-<p>For this part of the course (processing data) we will continue with Drosophila melanogaster data. We will plot a global overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.</p>
+<p>For this part of the course (processing data) we will continue using the Drosophila melanogaster data. We will plot an overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.</p>
 <div id="all-rna-seq-data" class="section level3">
 <h3>All RNA-Seq data</h3>
 <p>When we download/collect all data for a particular data type from Bgee you are working with processed data.</p>
-<p>From this processed data you can have an overview for each sample, referent to each experiment, of the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.</p>
+<p>From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.</p>
 <pre class="r"><code>principalInfo &lt;- c()
 for (i in dataBgee_DM) {
   
@@ -696,7 +730,7 @@ SFonsecaCosta
 </table>
 </div>
 </div>
-<p>In order to agroup the data you can verify the relative expression by plotting that per correspondent anatomical entities. Note that a violin_plot can represent multiple samples if the libraries belongs to same anatomical entity.</p>
+<p>You can also agroup the data per correspondent anatomical entities. Note that here a violin_plot can represent multiple samples if the libraries in same experiment belongs to same the anatomical entity.</p>
 <pre class="r"><code>ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.entity.ID)) +
         geom_violin() + xlab(&quot;Experiments&quot;) + ylab(&quot;Log2(TPM)&quot;) +
         ggtitle(&quot;Experiments per anatomical entity&quot;)+
@@ -757,7 +791,6 @@ ggplot(experiment_SRP002072, aes(x = Library.ID, y = log2(TPM))) +
         ggtitle(&quot;Experiment SRP002072&quot;)+
   scale_color_viridis_d() +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(colour = guide_legend(override.aes = list(size=1)))</code></pre>
-<pre><code>Warning: Removed 53488 rows containing non-finite values (stat_ydensity).</code></pre>
 <p><img src="figure/processdata.Rmd/process-one-experiment-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-process-one-experiment-1">
@@ -796,7 +829,7 @@ SFonsecaCosta
 </table>
 </div>
 </div>
-<p>From the plot above we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.</p>
+<p>From this experiment we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.</p>
 <pre class="r"><code>sexInfo &lt;- c(&quot;male&quot;, &quot;female&quot;)
 libInfo &lt;- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
 unique(libInfo$Library.ID)</code></pre>
@@ -824,8 +857,6 @@ ggstatsplot::ggscatterstats(
   title = &quot;Correlation between samples from same experiment&quot;,
   messages = FALSE
 )</code></pre>
-<pre><code>Warning in genhypergeo_series_pos(U = c((n - 1)/2, (n - 1)/2), L = ((n + :
-Series not converged.</code></pre>
 <p><img src="figure/processdata.Rmd/libraries-correlation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-libraries-correlation-1">

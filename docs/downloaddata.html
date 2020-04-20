@@ -508,16 +508,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong4b9ee87"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 4b9ee87 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongf18beb5"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> f18beb5 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong4b9ee87" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongf18beb5" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 4b9ee87. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version f18beb5. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -573,6 +573,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+f18beb5
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-20
+</td>
+<td>
+Minor things
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+3118c12
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -653,7 +687,7 @@ length(dataBgee_DM)</code></pre>
 <p>In case you just have interest in download a particular experiment (as showed before), anatomical entity or developmental stage, you can just download this data by specifying that in the respective arguments: <code>experimentId</code> , <code>anatEntityId</code> and <code>stageId</code>.</p>
 <div id="per-experiment" class="section level3">
 <h3>Per experiment</h3>
-<p>Taking your experimenId result from the the filtering in the previously section, download just this respective experiment by specifying that in the argument <code>experimentId</code> in the <code>getData()</code> function.</p>
+<p>Taking your experimenId result from the filtering in the previously section, download just this respective experiment by specifying that in the argument <code>experimentId</code> in the <code>getData()</code> function.</p>
 <pre class="r"><code>DrosMelRNASeq_SRP002072 &lt;- getData(DrosMelRNASeq, experimentId = &quot;SRP002072&quot;)</code></pre>
 <pre><code>NOTE: expression data file in .rds format was found in the download directory /Users/sfonseca1/Bgee/Drosophila_melanogaster_Bgee_14_1 for SRP002072. Data will not be redownloaded.</code></pre>
 <pre class="r"><code>head(DrosMelRNASeq_SRP002072)</code></pre>
@@ -688,7 +722,7 @@ length(dataBgee_DM)</code></pre>
 </div>
 <div id="specify-an-anatomical-entity" class="section level3">
 <h3>Specify an anatomical entity</h3>
-<p>You are also available to retrieve data from the database by specifying the anatomic entity of interest for this particular experiment. Here we will target adult organism as an example.</p>
+<p>You are also able to retrieve data from the database by specifying the anatomic entity of interest for this particular experiment. Here we will target adult organism as an example.</p>
 <pre class="r"><code>DrosMelRNASeq_annEnt &lt;- getData(DrosMelRNASeq, experimentId = &quot;SRP002072&quot;, anatEntityId = &quot;UBERON:0007023&quot;)
 head(DrosMelRNASeq_annEnt)</code></pre>
 <p>Note you can specify more than one anatomical entity in the <code>anatEntityId</code> argument.</p>
