@@ -34,7 +34,7 @@ We will plot an overview of the all RNA-Seq data available for this species and 
 
 When we download/collect all data for a particular data type from Bgee you are working with processed data.
 
-```{r all-rnaseq-data, message = FALSE, include=FALSE, warning = FALSE}
+```{r all-rnaseq-data, message = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = T,results = "hide")
 
 DrosMelRNASeq <- Bgee$new(species = "Drosophila_melanogaster", dataType = "rna_seq")
@@ -44,7 +44,7 @@ annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
 
 From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.
 
-```{r all-rnaseq-data-fig, fig.width=20,fig.height=8}
+```{r all-rnaseq-data-fig, fig.width=20,fig.height=8, warning = FALSE}
 principalInfo <- c()
 for (i in dataBgee_DM) {
   
@@ -61,7 +61,7 @@ ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM))) +
 
 You can also agroup the data per correspondent anatomical entities. Note that here a violin_plot can represent multiple samples if the libraries in same experiment belongs to same the anatomical entity.
 
-```{r all-rnaseq-data-anntEnt, fig.width=20,fig.height=8}
+```{r all-rnaseq-data-anntEnt, fig.width=20,fig.height=8, warning = FALSE}
 ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.entity.ID)) +
         geom_violin() + xlab("Experiments") + ylab("Log2(TPM)") +
         ggtitle("Experiments per anatomical entity")+
