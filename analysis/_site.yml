@@ -3,12 +3,22 @@ output_dir: ../docs
 navbar:
   title: "Bgee"
   left:
-  - text: Home
+
+  - text: Contents
     href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+  - text: Software & Data
+    href: general.html
+  - text: Extract Information
+    href: extractinfo.html
+  - text: Download data
+    href: downloaddata.html
+  - text: Processing data
+    href: processdata.html
+  - text: TopAnat
+    href: topanat.html
+  - text: Sparql endpoint
+    href: sparql.html
+    
 output:
   workflowr::wflow_html:
     toc: yes
