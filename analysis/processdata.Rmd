@@ -27,8 +27,8 @@ knitr::opts_chunk$set(cache = FALSE, autodep = TRUE)
 
 When you collect data from Bgee database you can explore the data in multiple different ways to extract knowledge for your research.
 
-For this part of the course (processing data) we will continue with Drosophila melanogaster data.
-We will plot a global overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.
+For this part of the course (processing data) we will continue using the Drosophila melanogaster data.
+We will plot an overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.
 
 ### All RNA-Seq data
 
@@ -42,7 +42,7 @@ dataBgee_DM <- getData(DrosMelRNASeq)
 annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
 ```
 
-From this processed data you can have an overview for each sample, referent to each experiment, of the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.
+From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.
 
 ```{r all-rnaseq-data-fig, fig.width=20,fig.height=8}
 principalInfo <- c()
@@ -59,7 +59,7 @@ ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM))) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-In order to agroup the data you can verify the relative expression by plotting that per correspondent anatomical entities. Note that a violin_plot can represent multiple samples if the libraries belongs to same anatomical entity.
+You can also agroup the data per correspondent anatomical entities. Note that here a violin_plot can represent multiple samples if the libraries in same experiment belongs to same the anatomical entity.
 
 ```{r all-rnaseq-data-anntEnt, fig.width=20,fig.height=8}
 ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.entity.ID)) +
@@ -75,7 +75,7 @@ Using as an example, in the course we will focus in the experiment retrieved in 
 
 By plotting the data (just to visualize) you should be able to found the samples that belongs to the same anatomical entity and developmental stage for this experiment.
 
-```{r process-one-experiment}
+```{r process-one-experiment, warning=FALSE}
 experiment_SRP002072 <- dplyr::filter(principalInfo, Experiment.ID == "SRP002072")
 
 ## remove useless columns in this case Experiment.ID = SRP002072 and Strain = NA
@@ -89,7 +89,7 @@ ggplot(experiment_SRP002072, aes(x = Library.ID, y = log2(TPM))) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(colour = guide_legend(override.aes = list(size=1)))
 ```
 
-From the plot above we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.
+From this experiment we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.
 
 ```{r libraries-from-experiment-SRP002072}
 sexInfo <- c("male", "female")
@@ -97,10 +97,11 @@ libInfo <- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
 unique(libInfo$Library.ID)
 ```
 
-From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. Just verify how they correlate in overall (relative expression - TPM).
+From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. 
+Just verify how they correlate in overall (relative expression - TPM).
 
 
-```{r libraries-correlation}
+```{r libraries-correlation, warning=FALSE}
 ## extract just fundamental columns to make a reformated data.frame
 libInfo <- libInfo[c(1,2,6)]
 

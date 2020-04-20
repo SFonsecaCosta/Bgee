@@ -37,7 +37,7 @@ In case you just have interest in download a particular experiment (as showed be
 
 ### Per experiment
 
-Taking your experimenId result from the the filtering in the previously section, download just this respective experiment by specifying that in the argument `experimentId` in the `getData()` function.
+Taking your experimenId result from the filtering in the previously section, download just this respective experiment by specifying that in the argument `experimentId` in the `getData()` function.
 
 ```{r download-subset}
 DrosMelRNASeq_SRP002072 <- getData(DrosMelRNASeq, experimentId = "SRP002072")
@@ -46,7 +46,7 @@ head(DrosMelRNASeq_SRP002072)
 
 ### Specify an anatomical entity
 
-You are also available to retrieve data from the database by specifying the anatomic entity of interest for this particular experiment. Here we will target adult organism as an example.
+You are also able to retrieve data from the database by specifying the anatomic entity of interest for this particular experiment. Here we will target adult organism as an example.
 
 ```{r download-subset-ann, eval=FALSE}
 DrosMelRNASeq_annEnt <- getData(DrosMelRNASeq, experimentId = "SRP002072", anatEntityId = "UBERON:0007023")

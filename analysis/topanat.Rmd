@@ -24,7 +24,7 @@ library(ggplot2)
 
 The TopAnat allow you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns. 
 
-In this example we will use a non-model organism Bus taurus (cow) to run the TopAnat analysis.
+In this example we will use a non-model organism Bus taurus (cattle) to run the TopAnat analysis.
 
 ## Create a Bgee object
 
