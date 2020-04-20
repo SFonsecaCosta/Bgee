@@ -1,9 +1,8 @@
-name: "Bgee"
+name: Bgee
 output_dir: ../docs
 navbar:
-  title: "Bgee"
+  title: Bgee
   left:
-
   - text: Contents
     href: index.html
   - text: Software & Data
@@ -18,7 +17,10 @@ navbar:
     href: topanat.html
   - text: Sparql endpoint
     href: sparql.html
-    
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/SFonsecaCosta/Bgee
 output:
   workflowr::wflow_html:
     toc: yes
