@@ -1,11 +1,46 @@
 ---
-title: "Home"
+title: "Contents"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
-editor_options:
-  chunk_output_type: console
 ---
 
-Welcome to my research website.
+- [Software & Data](general.html):
+    - Software requirements
+    - Data
+    - References
+    
+- [Extract Information](extractinfo.html):
+    - Species available
+    - Releases available
+    - Retrieve annotation
+    - Target experiments using annotation
+
+- [Download data](downloaddata.html):
+    - Download all data
+    - Download experiments
+    - Download per anatomical entity 
+    - Download per developmental stage
+    
+- [Processing data](processdata.html):
+    - All data 
+    - Per experiment
+    - Correlation between samples (same anatomical entity & developmental stage)
+    - Cross annotation with processed data
+   
+- [TopAnat](topanat.html):
+    - Create and load the data
+    - Background/foreground genes
+    - topGO object
+    - Enrichment test
+    - Results
+    
+    
+- [SPARQL endpoint](sparql.html):
+    - Stable sparql endpoint
+    - Retrieve species
+    - Retrieve anatomical entities
+    - Target genes
+    
+    
