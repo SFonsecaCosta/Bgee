@@ -1,0 +1,72 @@
+---
+title: "Download data"
+author: 
+- name: Sara Fonseca Costa
+  affiliation:
+  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document:
+    toc: true
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, autodep = TRUE)
+```
+
+```{r load-libs, message = FALSE, warning = FALSE, echo=FALSE}
+library(BgeeDB)
+```
+
+## All experiments
+
+If you don't want to use filters, as showed in the previous section (Extract Information) where you target a particular experiment to download, you can always download all the data referent to the species using the `getData()` function.
+Note that in the getData() you should specify which data type you would like to retrieve from Bgee by specifying that in the argument `dataType`. 
+
+```{r download-data}
+DrosMelRNASeq <- Bgee$new(species = "Drosophila_melanogaster", dataType = "rna_seq")
+dataBgee_DM <- getData(DrosMelRNASeq)
+
+## Number of experiments that exist in BgeeDB
+length(dataBgee_DM)
+```
+
+## Subset of the data
+
+In case you just have interest in download a particular experiment (as showed before), anatomical entity or developmental stage, you can just download this data by specifying that in the respective arguments: `experimentId` , `anatEntityId` and `stageId`. 
+
+### Per experiment
+
+Taking your experimenId result from the the filtering in the previously section, download just this respective experiment by specifying that in the argument `experimentId` in the `getData()` function.
+
+```{r download-subset}
+DrosMelRNASeq_SRP002072 <- getData(DrosMelRNASeq, experimentId = "SRP002072")
+head(DrosMelRNASeq_SRP002072)
+```
+
+### Specify an anatomical entity
+
+You are also available to retrieve data from the database by specifying the anatomic entity of interest for this particular experiment. Here we will target adult organism as an example.
+
+```{r download-subset-ann, eval=FALSE}
+DrosMelRNASeq_annEnt <- getData(DrosMelRNASeq, experimentId = "SRP002072", anatEntityId = "UBERON:0007023")
+head(DrosMelRNASeq_annEnt)
+```
+
+Note you can specify more than one anatomical entity in the `anatEntityId` argument.
+
+```{r download-subset-ann-multi, eval=FALSE}
+DrosMelRNASeq_annEnt_plus <- getData(DrosMelRNASeq, experimentId = "SRP002072", anatEntityId = c("UBERON:0007023","UBERON:0000922","UBERON:0002548"))
+head(DrosMelRNASeq_annEnt_plus)
+```
+
+### Specify a developmental stage
+
+As demonstrated before, for experiment and anatomical entities, you also can download data by specifying your target developmental stage of interest in the `stageId` argument.
+
+```{r download-subset-stg, eval=FALSE}
+DrosMelRNASeq_SRP002072_stg <- getData(DrosMelRNASeq, stageId = c("UBERON:0000068","FBdv:00005341"))
+head(DrosMelRNASeq_SRP002072_stg)
+```
+
+

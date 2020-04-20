@@ -1,0 +1,64 @@
+---
+title: "Software & Data"
+author: 
+- name: Sara Fonseca Costa
+  affiliation:
+  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document:
+    toc: true
+---
+
+## Software installation
+
+For this course, you will need R.4.0, which you can download from https://cran.r-project.org/ (if you are using RStudio cloud, that is recommended for this course, this is not necessary) and Bioconductor software version 3.11.
+
+First install BiocManager package, to help you to install and manage packages from Bioconductor project. The code below can be passed directly in the terminal.
+
+```{r eval = FALSE, echo = TRUE}
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+    BiocManager::install(version = "3.11")
+```
+
+Then install the BgeeDB package that will be used for this course, you can downloaded the package from Bioconductor by typing:
+
+```{r eval = FALSE, echo = TRUE}
+BiocManager::install("BgeeDB")
+```
+
+Some additional packages are used during the course and in that case to install them you just have to type: 
+
+```{r eval = FALSE, echo = TRUE}
+BiocManager::install("PACKAGE_NAME")
+```
+
+Note: If you want, you can also install RStudio software, which can be download from https://rstudio.com/products/rstudio/download/ to run later your code in your local machine.
+
+
+## Data
+
+The data used during this course will be,
+
+Model organism:
+
+- Drosophila melanogaster (DM)
+
+Non-model organism:
+
+- Bus taurus (BT)
+
+In more detail: the steps Extract information, Download data and Processing data we will use DM data.
+For the TopAnat and Sparql endpoint we will use BT data.
+
+
+## References
+
+Komljenovic A, Roux J, Robinson-Rechavi M, and Bastian F (2016). BgeeDB, an R package for retrieval of curated expression datasets
+  and for gene list enrichment tests. F1000Research
+
+  Bastian F et al. (2008). Bgee: Integrating and Comparing Heterogeneous Transcriptome Data Among Species. Data Integration Life Sci.
+  Lecture Notes in Computer Science, 5109, 124-31
+  
+  

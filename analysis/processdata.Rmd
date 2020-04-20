@@ -1,0 +1,157 @@
+---
+title: "Processing data"
+author: 
+- name: Sara Fonseca Costa
+  affiliation:
+  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document:
+    toc: true
+---
+
+## Load the packages
+
+```{r load-libs, message = FALSE, warning = FALSE, echo=TRUE}
+library(BgeeDB)
+library(ggplot2)
+library(ggstatsplot)
+```
+
+
+```{r include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, autodep = TRUE, message = FALSE, warning = FALSE)
+```
+
+## Processing the data
+
+When you collect data from Bgee database you can explore the data in multiple different ways to extract knowledge for your research.
+
+For this part of the course (processing data) we will continue with Drosophila melanogaster data.
+We will plot a global overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.
+
+### All RNA-Seq data
+
+When we download/collect all data for a particular data type from Bgee you are working with processed data.
+
+```{r all-rnaseq-data, message = FALSE, include=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = T,results = "hide")
+
+DrosMelRNASeq <- Bgee$new(species = "Drosophila_melanogaster", dataType = "rna_seq")
+dataBgee_DM <- getData(DrosMelRNASeq)
+annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
+```
+
+From this processed data you can have an overview for each sample, referent to each experiment, of the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.
+
+```{r all-rnaseq-data-fig, fig.width=20,fig.height=8}
+principalInfo <- c()
+for (i in dataBgee_DM) {
+  
+  collect <- i[c(1,2,4,5,7,9, 10,12)]
+  principalInfo <- rbind(principalInfo, collect)
+}
+
+ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM))) +
+        geom_boxplot(aes(color = Library.ID), show.legend = FALSE) + xlab("Experiments") + ylab("Log2(TPM)") +
+        ggtitle("Libraries per experiments from RNA-Seq data")+
+  scale_color_viridis_d() +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+In order to agroup the data you can verify the relative expression by plotting that per correspondent anatomical entities. Note that a violin_plot can represent multiple samples if the libraries belongs to same anatomical entity.
+
+```{r all-rnaseq-data-anntEnt, fig.width=20,fig.height=8}
+ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.entity.ID)) +
+        geom_violin() + xlab("Experiments") + ylab("Log2(TPM)") +
+        ggtitle("Experiments per anatomical entity")+
+  scale_color_viridis_d() +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(colour = guide_legend(override.aes = list(size=1)))
+```
+
+### Per experiment
+
+Using as an example, in the course we will focus in the experiment retrieved in the section Extract Information, this means the experimentId SRP002072.
+
+By plotting the data (just to visualize) you should be able to found the samples that belongs to the same anatomical entity and developmental stage for this experiment.
+
+```{r process-one-experiment}
+experiment_SRP002072 <- dplyr::filter(principalInfo, Experiment.ID == "SRP002072")
+
+## remove useless columns in this case Experiment.ID = SRP002072 and Strain = NA
+experiment_SRP002072[1] <- NULL
+experiment_SRP002072[6] <- NULL
+
+ggplot(experiment_SRP002072, aes(x = Library.ID, y = log2(TPM))) +
+        geom_violin(aes(fill = Anatomical.entity.ID, col = Stage.ID)) + xlab("Libraries") + ylab("Log2(TPM)") +
+        ggtitle("Experiment SRP002072")+
+  scale_color_viridis_d() +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(colour = guide_legend(override.aes = list(size=1)))
+```
+
+From the plot above we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.
+
+```{r libraries-from-experiment-SRP002072}
+sexInfo <- c("male", "female")
+libInfo <- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
+unique(libInfo$Library.ID)
+```
+
+From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. Just verify how they correlate in overall (relative expression - TPM).
+
+
+```{r libraries-correlation}
+## extract just fundamental columns to make a reformated data.frame
+libInfo <- libInfo[c(1,2,6)]
+
+## reformat the data
+reshapeTable <- reshape(libInfo, direction='wide',idvar='Library.ID', timevar='Gene.ID')
+reshapeTable <- t(reshapeTable)[-c(1),]
+finalTable <- data.frame(as.numeric(reshapeTable[,1]), as.numeric(reshapeTable[,2]))
+colnames(finalTable) <- c("SRX019652", "SRX019653")
+finalTable <- log(finalTable)
+finalTable <- as.matrix(finalTable)
+
+finalTable <- finalTable[!rowSums(!is.finite(finalTable)),]
+finalTable <- as.data.frame(finalTable)
+
+ggstatsplot::ggscatterstats(
+  data = finalTable,
+  x = SRX019652,
+  y = SRX019653,
+  xlab = "SRX019652 (F)",
+  ylab = "SRX019653 (M)",
+  title = "Correlation between samples from same experiment",
+  messages = FALSE
+)
+```
+
+
+## Cross annotation with processed data
+
+Now from the output provided by the `getAnnotation()` function you can verify the amount of protein coding genes present, as well as other informations, for each sample.
+
+```{r plot-PC}
+samplesId <- c(unique(libInfo$Library.ID))
+infoLib <- dplyr::filter(annotation_DrosMelRNASeq$sample.annotation, Library.ID %in% samplesId)
+
+ggplot(infoLib, aes(x = Library.ID, y = Protein.coding.genes.percent.present)) +
+        geom_point() + ylim(0, 100) + xlab("Libraries") + ylab("% Protein coding") +
+        ggtitle("Selected samples - SRX019652 (F) & SRX019653 (M)")
+```
+
+
+### Protein coding (All samples)
+
+In the graphic above we just plot the 2 samples from our narrow analysis. 
+
+In order to get an overview of the % of protein coding genes for all samples from Drosophila melanogaster we should make a general plot.
+
+```{r all-data-PC, fig.width=20,fig.height=10}
+ggplot(annotation_DrosMelRNASeq$sample.annotation, aes(x = Experiment.ID, y = Protein.coding.genes.percent.present)) +
+        geom_point(aes(color = Anatomical.entity.name ), show.legend = TRUE) + xlab("Experiments") + ylab("% Protein coding") +
+        ggtitle("Percentage of protein coding per library")+
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+

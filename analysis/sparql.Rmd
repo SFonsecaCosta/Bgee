@@ -1,0 +1,173 @@
+---
+title: "SPARQL endpoint"
+author: 
+- name: Sara Fonseca Costa
+  affiliation:
+  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this section we will introduce you the SPARQL endpoint from Bgee.
+You are able to use the sparql endpoint from Bgee in R to retrieve all information from the database.
+
+## Load the packages
+
+```{r libraries, message = FALSE, warning = FALSE} 
+library(SPARQL)
+library(stringr)
+library(data.table)
+```
+
+## SPARQL endpoint
+
+The Bgee SPARQL endpoint is accessible in a stable manner through the stable URL address.
+
+```{r sparql-endpoint} 
+sparqlEndPoint <- "https://bgee.org/sparql14_1"
+```
+
+## Retrieve species 
+
+Using the sparql endpoint from Bgee you are able to retrieve information about each species by specifying the respective uniprot taxon.
+
+```{r species-taxon} 
+
+species_taxon <- "PREFIX up: <http://purl.uniprot.org/core/>
+SELECT * {
+	?species a up:Taxon .
+	?species up:scientificName ?name .
+	?species up:rank up:Species .
+}"
+
+species_taxonTable <- unique(SPARQL(url=sparqlEndPoint, species_taxon)$results)
+
+paste0("Number of the species present in Bgee database: ", nrow(species_taxonTable))
+
+```
+
+As a recommendation and for forward analysis you maybe should clean the first row of the table.
+
+```{r species-taxon-clean} 
+species_taxonTable$species <- sub('<http://purl.uniprot.org/taxonomy/(\\d+).*', '\\1', species_taxonTable$species)
+head(species_taxonTable)
+```
+
+To show you how to query particular data from species, genes or anatomical entitites, in this section we will use information collected from the TopAnat analysis, so this means we will use Bus taurus as a specie target.
+
+## Retrieve anatomical entities
+
+### Anatomical entities from a particular specie and developmental stage
+
+You can retrieve data by specifying your target species and the target developmental stage by retrieving all anatomic entities. Here we will use as example the Bus taurus (cattle) and as developmental stage the 'prime adult stage'. 
+
+
+```{r annat-devStage} 
+
+anatEnt_devStage <- "PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX genex: <http://purl.org/genex#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+SELECT DISTINCT ?anatName FROM <https://bgee.org/rdf_v14_1> {
+	?cond genex:hasAnatomicalEntity ?anatEntity .
+	?anatEntity rdfs:label ?anatName .
+	?cond genex:hasDevelopmentalStage ?stage .
+	?stage rdfs:label ?stageName .
+	?cond obo:RO_0002162 ?taxon .
+	?taxon up:commonName ?commonName .
+	FILTER ( LCASE(?commonName) = LCASE('cattle')).
+	FILTER ( CONTAINS(?stageName, 'prime adult stage'))
+}"
+
+anatEnt_devStageTable <- SPARQL(url=sparqlEndPoint, anatEnt_devStage)
+print(paste0("Number of anatomical entities found: ", length(anatEnt_devStageTable$results)))
+
+```
+
+### Anatomic entities where a gene is expressed
+
+Now using one of the statistical significant genes from TopAnat you should be able to retrieve all anatomical entites in Bgee. For that you should specify in your query the target species and the target gene.
+
+```{r annat-gene-species} 
+
+anatEnt_gene_species <- "PREFIX orth: <http://purl.org/net/orth#>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX genex: <http://purl.org/genex#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX lscr: <http://purl.org/lscr#>
+PREFIX dct: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?anatEntity ?anatName  FROM <https://bgee.org/rdf_v14_1> {
+values ?ensembl_gene { <http://rdf.ebi.ac.uk/resource/ensembl/ENSBTAG00000005333> }  
+   
+    ?seq a orth:Gene .
+    ?seq lscr:xrefEnsemblGene  ?ensembl_gene.
+    ?seq rdfs:label ?geneName .
+    ?seq genex:isExpressedIn ?cond .
+    ?cond genex:hasAnatomicalEntity ?anatEntity .
+    ?anatEntity rdfs:label ?anatName .
+    ?cond obo:RO_0002162 <http://purl.uniprot.org/taxonomy/9913> . 
+}"
+
+anatEnt_gene_speciesTable <- SPARQL(url=sparqlEndPoint, anatEnt_gene_species)
+print(paste0("Number of anatomical entities: ", length(anatEnt_gene_speciesTable$results$anatEntity)))
+print(unique(anatEnt_gene_speciesTable$results$anatEntity))
+```
+
+
+## Target genes 
+
+Use the genes to target description and species.
+
+### Target the genes that have muscle as the term description.
+
+Target the genes that have muscle as a term condiction, from this verify if the gene "ENSBTAG00000014614" was detected. Note that this genes was statistically significant in the TopAnat analysis.
+
+```{r genes-muscle} 
+
+genes_muscles <- "PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?geneName ?geneId FROM <https://bgee.org/rdf_v14_1> {
+	?gene a orth:Gene .
+	?gene rdfs:label ?geneName .
+	?gene dcterms:identifier ?geneId .
+	?gene dcterms:description ?desc .
+	FILTER CONTAINS ( ?desc, 'muscle' )
+}"
+
+genes_musclesTable <- SPARQL(url=sparqlEndPoint, genes_muscles)
+
+## gene just in Bus taurus
+genes_musclesTable$results[genes_musclesTable$results$geneId %like% "ENSBTAG", ]
+```
+
+### Target species where gene is present
+
+Verify if the geneId "ENSBTAG00000014614" with gene name ACTA2 is also present in others species. 
+
+```{r gene-present-species} 
+
+gene_present_species <- "PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+SELECT ?name FROM <https://bgee.org/rdf_v14_1> {
+	?gene a orth:Gene .
+	?gene rdfs:label ?geneName .
+	?gene orth:organism ?organism . #orth v2
+	?organism obo:RO_0002162 ?taxon . #label: in taxon .
+	?taxon up:scientificName ?name .
+	FILTER ( UCASE(?geneName) = UCASE('ACTA2') )
+}"
+
+gene_present_speciesTable <- SPARQL(url=sparqlEndPoint, gene_present_species)
+print(paste0("Number of species detected: ",length(gene_present_speciesTable$results)))
+t(gene_present_speciesTable$results)
+```
+
+
+

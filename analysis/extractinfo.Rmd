@@ -1,0 +1,80 @@
+---
+title: "Extract information"
+author: 
+- name: Sara Fonseca Costa
+  affiliation:
+  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document:
+    toc: true
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, autodep = TRUE)
+```
+
+## Load the packages
+
+```{r load-libs, message = FALSE, warning = FALSE}
+library(BgeeDB)
+library(here)
+```
+
+## Check the list of species
+
+Verify the list of available species in BgeeDB and the correspondent data types for each species.
+
+```{r list-species}
+head(listBgeeSpecies())
+```
+
+## Check list of Bgee releases
+ 
+You can verify the list of releases available in BgeeDB by using the `listBgeeRelease()` function.
+
+```{r list-release}
+listBgeeRelease()
+```
+
+If you are interested in a particular release you can specify that by using the argument `release` and you are also able to order the table by a specific column, by speficying that in the argument `order`.
+
+```{r list-release-specification}
+head(listBgeeSpecies(release = "13.2", order = 2))
+```
+
+## Retrieve annotation
+
+In order to retrieve the annotation about the species and the data type of interest you have to create a Bgee object. You are able to provide in the `species` argument the name of the species or the NCBI taxonomic IDs.
+
+For this course we will use the Drosophila melanogaster data and the last release of Bgee (14.1).
+
+```{r create-object}
+DrosMelRNASeq <- Bgee$new(species = "Drosophila_melanogaster", dataType = "rna_seq")
+```
+
+```{r get-annotation}
+annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
+```
+
+The output folder from the download should be saved in your current directory, where you should have a folder called: SPECIES_Bgee_release (in this particular case: Drosophila_melanogaster_Bgee_14_1).
+
+
+## Target experiments from annotation
+
+From the informative files (in this case: Drosophila_melanogaster_RNA-Seq_experiments.tsv or Drosophila_melanogaster_RNA-Seq_libraries.tsv) you are able to target experiments or libraries of interest before you start downloading the data.
+
+Suggestion: Try to extract an experiment that have a minimum amount of 10 libraries and maximum of 25 libraries in Drosophila melanogaster informative file. 
+During the filtering process allow the experiment to have samples in different condictions and samples in different stages.
+
+
+```{r select-from-annotatio, echo=TRUE}
+annExperiments <- read.table(file = here("Drosophila_melanogaster_Bgee_14_1","Drosophila_melanogaster_RNA-Seq_experiments.tsv"), header=T, sep="\t")
+
+experimentsId <- subset(annExperiments, Library.count > 10 & Library.count < 25 & Condition.count > 5 & Condition.count < 15 & Organ.stage.count > 5)
+
+## retrieve experiments 
+unique(experimentsId)
+```
+
+
