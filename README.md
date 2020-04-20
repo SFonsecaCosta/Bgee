@@ -2,9 +2,9 @@
 
 ## Repository
 
-This repository is related to the hands-on of the SIB Bgee course.
+This repository is related to the hands-on part of the SIB Bgee course.
 
-The browsable part of the course can be found here: 
+The browsable part of the course can be found here: https://sfonsecacosta.github.io/Bgee/. 
 
 
 ## Reference
