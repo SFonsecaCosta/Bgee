@@ -11,7 +11,7 @@ output:
 ---
 
 ```{r include = FALSE}
-knitr::opts_chunk$set(cache = TRUE, autodep = TRUE)
+knitr::opts_chunk$set(cache = FALSE, autodep = TRUE)
 ```
 
 ## Load the packages
