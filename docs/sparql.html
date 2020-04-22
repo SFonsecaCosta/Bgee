@@ -516,16 +516,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree9907294c07372d3e907a7d584449805c765aaeabtargetblank9907294a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/9907294c07372d3e907a7d584449805c765aaeab" target="_blank">9907294</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree5ebe080e3075596f1d5d28d588e583a8e43e6141targetblank5ebe080a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/5ebe080e3075596f1d5d28d588e583a8e43e6141" target="_blank">5ebe080</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree9907294c07372d3e907a7d584449805c765aaeabtargetblank9907294a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree5ebe080e3075596f1d5d28d588e583a8e43e6141targetblank5ebe080a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/9907294c07372d3e907a7d584449805c765aaeab" target="_blank">9907294</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/5ebe080e3075596f1d5d28d588e583a8e43e6141" target="_blank">5ebe080</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -535,7 +535,6 @@ Ignored files:
     Ignored:    .Rhistory
 
 Untracked files:
-    Untracked:  Bos_taurus_Bgee_14_1/
     Untracked:  Drosophila_melanogaster_Bgee_14_1/
     Untracked:  release.tsv
     Untracked:  species_Bgee_14_1.tsv
@@ -581,6 +580,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/SFonsecaCosta/Bgee/blob/5ebe080e3075596f1d5d28d588e583a8e43e6141/analysis/sparql.Rmd" target="_blank">5ebe080</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-22
+</td>
+<td>
+add links sparql
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/SFonsecaCosta/Bgee/ae29961e3b7c4f01a40198e3dcf18f03e8ebdde8/docs/sparql.html" target="_blank">ae29961</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -639,7 +672,8 @@ add analysis
 </div>
 </div>
 </div>
-<p>In this section we will introduce the SPARQL endpoint from Bgee. You are able to use the sparql endpoint from Bgee in R to retrieve all information from the database.</p>
+<p>In this section we will introduce the SPARQL endpoint from Bgee.</p>
+<p>You are able to use the SPARQL endpoint from Bgee in R to retrieve information from the database.</p>
 <div id="load-the-packages" class="section level2">
 <h2>Load the packages</h2>
 <pre class="r"><code>library(SPARQL)
@@ -648,12 +682,12 @@ library(data.table)</code></pre>
 </div>
 <div id="sparql-endpoint" class="section level2">
 <h2>SPARQL endpoint</h2>
-<p>The Bgee SPARQL endpoint is accessible in a stable manner through the stable URL address.</p>
-<pre class="r"><code>sparqlEndPoint &lt;- &quot;https://bgee.org/sparql14_1&quot;</code></pre>
+<p>The latest version of the Bgee SPARQL endpoint is accessible through the URL address below. SPARQL is a semantic query language for databases. For further details, see the SPARQL documentation at <a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/" class="uri">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/</a> . The Bgee data accessible through this SPARQL enpoint are structured by using the Gene expression (GenEx) semantic model and vocabulary that is fully described at <a href="https://biosoda.github.io/genex/" class="uri">https://biosoda.github.io/genex/</a> .</p>
+<pre class="r"><code>sparqlEndPoint &lt;- &quot;https://bgee.org/sparql&quot;</code></pre>
 </div>
 <div id="retrieve-species" class="section level2">
 <h2>Retrieve species</h2>
-<p>Using the sparql endpoint from Bgee you are able to retrieve information about each species by specifying the respective uniprot taxon.</p>
+<p>Using the SPARQL endpoint from Bgee you are able to retrieve information about each species by specifying the respective NCBI taxon.</p>
 <pre class="r"><code>species_taxon &lt;- &quot;PREFIX up: &lt;http://purl.uniprot.org/core/&gt;
 SELECT * {
     ?species a up:Taxon .
@@ -668,20 +702,20 @@ paste0(&quot;Number of the species present in Bgee database: &quot;, nrow(specie
 <p>For forward analysis, we recommend to clean the first row of the table.</p>
 <pre class="r"><code>species_taxonTable$species &lt;- sub(&#39;&lt;http://purl.uniprot.org/taxonomy/(\\d+).*&#39;, &#39;\\1&#39;, species_taxonTable$species)
 head(species_taxonTable)</code></pre>
-<pre><code>   species                   name
-1    10090           Mus musculus
-9    10116      Rattus norvegicus
-17   10141        Cavia porcellus
-25   13616  Monodelphis domestica
-33   28377    Anolis carolinensis
-41    6239 Caenorhabditis elegans</code></pre>
+<pre><code>  species                   name
+1   10090           Mus musculus
+2   10116      Rattus norvegicus
+3   10141        Cavia porcellus
+4   13616  Monodelphis domestica
+5   28377    Anolis carolinensis
+6    6239 Caenorhabditis elegans</code></pre>
 <p>To show you how to query particular data from species, genes or anatomical entitites, in this section we will use information collected from the TopAnat analysis, so this means we will use <em>Bos taurus</em> as a species target.</p>
 </div>
 <div id="retrieve-anatomical-entities" class="section level2">
 <h2>Retrieve anatomical entities</h2>
 <div id="anatomical-entities-from-a-particular-species-and-a-developmental-stage" class="section level3">
 <h3>Anatomical entities from a particular species and a developmental stage</h3>
-<p>You can retrieve data by specifying your target species and the target developmental stage by retrieving all anatomical entities. Here, we will use the example of <em>Bos taurus</em> (cattle) with the developmental stage ‘prime adult stage’.</p>
+<p>Here, we will use the example of <em>Bos taurus</em> (cattle) with the developmental stage ‘prime adult stage’.</p>
 <pre class="r"><code>anatEnt_devStage &lt;- &quot;PREFIX up: &lt;http://purl.uniprot.org/core/&gt;
 PREFIX genex: &lt;http://purl.org/genex#&gt;
 PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
@@ -725,24 +759,24 @@ anatEnt_gene_speciesTable &lt;- SPARQL(url=sparqlEndPoint, anatEnt_gene_species)
 print(paste0(&quot;Number of anatomical entities: &quot;, length(anatEnt_gene_speciesTable$results$anatEntity)))</code></pre>
 <pre><code>[1] &quot;Number of anatomical entities: 13&quot;</code></pre>
 <pre class="r"><code>print(unique(anatEnt_gene_speciesTable$results$anatEntity))</code></pre>
-<pre><code> [1] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000082&gt;&quot;
- [2] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000451&gt;&quot;
- [3] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000948&gt;&quot;
- [4] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000955&gt;&quot;
- [5] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001111&gt;&quot;
+<pre><code> [1] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002048&gt;&quot;
+ [2] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000955&gt;&quot;
+ [3] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002000&gt;&quot;
+ [4] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000451&gt;&quot;
+ [5] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001295&gt;&quot;
  [6] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001134&gt;&quot;
- [7] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001155&gt;&quot;
- [8] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002048&gt;&quot;
- [9] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002106&gt;&quot;
-[10] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001295&gt;&quot;
-[11] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001401&gt;&quot;
-[12] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002000&gt;&quot;
-[13] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0034908&gt;&quot;</code></pre>
+ [7] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000082&gt;&quot;
+ [8] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001155&gt;&quot;
+ [9] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001401&gt;&quot;
+[10] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0000948&gt;&quot;
+[11] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0034908&gt;&quot;
+[12] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0001111&gt;&quot;
+[13] &quot;&lt;http://purl.obolibrary.org/obo/UBERON_0002106&gt;&quot;</code></pre>
 </div>
 </div>
 <div id="target-genes" class="section level2">
 <h2>Target genes</h2>
-<p>Use the genes to target description and species.</p>
+<p>In this section we will use the genes from our TopAnat analysis to target description and species.</p>
 <div id="target-the-genes-that-have-muscle-in-the-term-description." class="section level3">
 <h3>Target the genes that have muscle in the term description.</h3>
 <p>Target the genes that have muscle as a term condition, from this verify if the gene “ENSBTAG00000014614” was detected. Note that this gene was statistically significant in the TopAnat analysis.</p>
@@ -777,37 +811,35 @@ genes_musclesTable$results[genes_musclesTable$results$geneId %like% &quot;ENSBTA
 40      SMPX ENSBTAG00000015204
 41     MYLPF ENSBTAG00000021218
 42      MURC ENSBTAG00000021992
-43           ENSBTAG00000030186
-44      MYH4 ENSBTAG00000037794
-45     ACTA1 ENSBTAG00000046332
-453     PFKM ENSBTAG00000000286
-454   ATP2A2 ENSBTAG00000001398
-455     MRAS ENSBTAG00000001497
-456      PKM ENSBTAG00000001601
-457   ATP5A1 ENSBTAG00000002507
-458    MYH14 ENSBTAG00000002580
-459   CAPZA2 ENSBTAG00000004072
-460    CAPZB ENSBTAG00000004554
-461    MBNL1 ENSBTAG00000004564
-462     ENO3 ENSBTAG00000005534
-463    ACYP2 ENSBTAG00000006852
-464      GEM ENSBTAG00000007596
-465    PHKG1 ENSBTAG00000008195
-466          ENSBTAG00000009713
-467     CNN1 ENSBTAG00000011207
-468    PAMR1 ENSBTAG00000012630
-469   ANKRD2 ENSBTAG00000012720
-470   CAPZA1 ENSBTAG00000014295
-471     MYLK ENSBTAG00000014567
-472    ACTA2 ENSBTAG00000014614
-473   COX7A1 ENSBTAG00000014878
-474     CFL2 ENSBTAG00000015053
-475    ACTG2 ENSBTAG00000015441
-476    PHKA1 ENSBTAG00000015848
-477    FABP3 ENSBTAG00000016819
-478    MBNL2 ENSBTAG00000018313
-479    MYH10 ENSBTAG00000021151
-480    LMOD1 ENSBTAG00000021576</code></pre>
+43      MYH4 ENSBTAG00000037794
+44     ACTA1 ENSBTAG00000046332
+452     PFKM ENSBTAG00000000286
+453   ATP2A2 ENSBTAG00000001398
+454     MRAS ENSBTAG00000001497
+455      PKM ENSBTAG00000001601
+456   ATP5A1 ENSBTAG00000002507
+457    MYH14 ENSBTAG00000002580
+458   CAPZA2 ENSBTAG00000004072
+459    CAPZB ENSBTAG00000004554
+460    MBNL1 ENSBTAG00000004564
+461     ENO3 ENSBTAG00000005534
+462    ACYP2 ENSBTAG00000006852
+463      GEM ENSBTAG00000007596
+464    PHKG1 ENSBTAG00000008195
+465     CNN1 ENSBTAG00000011207
+466    PAMR1 ENSBTAG00000012630
+467   ANKRD2 ENSBTAG00000012720
+468   CAPZA1 ENSBTAG00000014295
+469     MYLK ENSBTAG00000014567
+470    ACTA2 ENSBTAG00000014614
+471   COX7A1 ENSBTAG00000014878
+472     CFL2 ENSBTAG00000015053
+473    ACTG2 ENSBTAG00000015441
+474    PHKA1 ENSBTAG00000015848
+475    FABP3 ENSBTAG00000016819
+476    MBNL2 ENSBTAG00000018313
+477    MYH10 ENSBTAG00000021151
+478    LMOD1 ENSBTAG00000021576</code></pre>
 </div>
 <div id="target-species-where-gene-is-present" class="section level3">
 <h3>Target species where gene is present</h3>
