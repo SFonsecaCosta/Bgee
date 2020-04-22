@@ -94,7 +94,7 @@ From this experiment we can collect samples from the same anatomical entity and 
 ```{r libraries-from-experiment-SRP002072}
 sexInfo <- c("male", "female")
 libInfo <- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
-unique(libInfo$Library.ID)
+print(unique(libInfo$Library.ID))
 ```
 
 From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. 

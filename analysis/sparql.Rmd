@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 In this section we will introduce the SPARQL endpoint from Bgee.
-You are able to use the sparql endpoint from Bgee in R to retrieve all information from the database.
+
+You are able to use the SPARQL endpoint from Bgee in R to retrieve information from the database.
 
 ## Load the packages
 
@@ -27,15 +28,15 @@ library(data.table)
 
 ## SPARQL endpoint
 
-The Bgee SPARQL endpoint is accessible in a stable manner through the stable URL address.
+The  latest version of the Bgee SPARQL endpoint is accessible through the  URL address below. SPARQL is a semantic query language for databases. For further details, see the SPARQL documentation at https://www.w3.org/TR/2013/REC-sparql11-query-20130321/ . The Bgee data accessible through this SPARQL enpoint are structured by using the Gene expression (GenEx) semantic model and vocabulary that is fully described at https://biosoda.github.io/genex/ .
 
 ```{r sparql-endpoint} 
-sparqlEndPoint <- "https://bgee.org/sparql14_1"
+sparqlEndPoint <- "https://bgee.org/sparql"
 ```
 
 ## Retrieve species 
 
-Using the sparql endpoint from Bgee you are able to retrieve information about each species by specifying the respective uniprot taxon.
+Using the SPARQL endpoint from Bgee you are able to retrieve information about each species by specifying the respective NCBI taxon.
 
 ```{r species-taxon} 
 
@@ -65,7 +66,7 @@ To show you how to query particular data from species, genes or anatomical entit
 
 ### Anatomical entities from a particular species and a developmental stage
 
-You can retrieve data by specifying your target species and the target developmental stage by retrieving all anatomical entities. Here, we will use the example of *Bos taurus* (cattle) with the developmental stage 'prime adult stage'.
+Here, we will use the example of *Bos taurus* (cattle) with the developmental stage 'prime adult stage'.
 
 ```{r annat-devStage} 
 
@@ -120,7 +121,7 @@ print(unique(anatEnt_gene_speciesTable$results$anatEntity))
 
 ## Target genes 
 
-Use the genes to target description and species.
+In this section we will use the genes from our TopAnat analysis to target description and species.
 
 ### Target the genes that have muscle in the term description.
 
