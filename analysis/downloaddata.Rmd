@@ -20,7 +20,7 @@ library(BgeeDB)
 
 ## All experiments
 
-If you don't want to use filters, as showed in the previous section (Extract Information) where you target a particular experiment to download, you can always download all the data referent to the species using the `getData()` function.
+If you do not want to use filters, as showed in the previous section (Extract Information) where you target a particular experiment to download, you can always download all the data of reference species using the `getData()` function.
 Note that in the getData() you should specify which data type you would like to retrieve from Bgee by specifying that in the argument `dataType`. 
 
 ```{r download-data}
@@ -33,16 +33,18 @@ length(dataBgee_DM)
 
 ## Subset of the data
 
-In case you just have interest in download a particular experiment (as showed before), anatomical entity or developmental stage, you can just download this data by specifying that in the respective arguments: `experimentId` , `anatEntityId` and `stageId`. 
+In case you are interested in downloading a particular experiment (as showed before), anatomical entity or developmental stage, you can just download this data by specifying that in the respective arguments: `experimentId` , `anatEntityId` and `stageId`. 
 
 ### Per experiment
 
-Taking your experimenId result from the filtering in the previously section, download just this respective experiment by specifying that in the argument `experimentId` in the `getData()` function.
+Taking your experimentId result from the filtering in previously section, download just this respective experiment by specifying that in the argument `experimentId` in the `getData()` function.
 
 ```{r download-subset}
 DrosMelRNASeq_SRP002072 <- getData(DrosMelRNASeq, experimentId = "SRP002072")
 head(DrosMelRNASeq_SRP002072)
 ```
+
+Note that in the next sub-sections the arguments `anatEntityId` and `stageId` in the getData() function are implemented just in BgeeDB package in the Bioconductor release 3.11.
 
 ### Specify an anatomical entity
 

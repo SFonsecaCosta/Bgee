@@ -14,7 +14,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this section we will introduce you the SPARQL endpoint from Bgee.
+In this section we will introduce the SPARQL endpoint from Bgee.
 You are able to use the sparql endpoint from Bgee in R to retrieve all information from the database.
 
 ## Load the packages
@@ -52,21 +52,20 @@ paste0("Number of the species present in Bgee database: ", nrow(species_taxonTab
 
 ```
 
-As a recommendation and for forward analysis you maybe should clean the first row of the table.
+For forward analysis, we recommend to clean the first row of the table.
 
 ```{r species-taxon-clean} 
 species_taxonTable$species <- sub('<http://purl.uniprot.org/taxonomy/(\\d+).*', '\\1', species_taxonTable$species)
 head(species_taxonTable)
 ```
 
-To show you how to query particular data from species, genes or anatomical entitites, in this section we will use information collected from the TopAnat analysis, so this means we will use Bus taurus as a specie target.
+To show you how to query particular data from species, genes or anatomical entitites, in this section we will use information collected from the TopAnat analysis, so this means we will use *Bos taurus* as a species target.
 
 ## Retrieve anatomical entities
 
-### Anatomical entities from a particular specie and developmental stage
+### Anatomical entities from a particular species and a developmental stage
 
-You can retrieve data by specifying your target species and the target developmental stage by retrieving all anatomic entities. Here we will use as example the Bus taurus (cattle) and as developmental stage the 'prime adult stage'. 
-
+You can retrieve data by specifying your target species and the target developmental stage by retrieving all anatomical entities. Here, we will use the example of *Bos taurus* (cattle) with the developmental stage 'prime adult stage'.
 
 ```{r annat-devStage} 
 
@@ -91,7 +90,7 @@ print(paste0("Number of anatomical entities found: ", length(anatEnt_devStageTab
 
 ### Anatomic entities where a gene is expressed
 
-Now using one of the statistical significant genes from TopAnat you should be able to retrieve all anatomical entites in Bgee. For that you should specify in your query the target species and the target gene.
+Now using one of the statistical significant genes from TopAnat, you should be able to retrieve all anatomical entites in Bgee. For that you should specify in your query the target species and the target gene.
 
 ```{r annat-gene-species} 
 
@@ -123,9 +122,9 @@ print(unique(anatEnt_gene_speciesTable$results$anatEntity))
 
 Use the genes to target description and species.
 
-### Target the genes that have muscle as the term description.
+### Target the genes that have muscle in the term description.
 
-Target the genes that have muscle as a term condiction, from this verify if the gene "ENSBTAG00000014614" was detected. Note that this genes was statistically significant in the TopAnat analysis.
+Target the genes that have muscle as a term condition, from this verify if the gene "ENSBTAG00000014614" was detected. Note that this gene was statistically significant in the TopAnat analysis.
 
 ```{r genes-muscle} 
 
@@ -142,13 +141,13 @@ SELECT ?geneName ?geneId FROM <https://bgee.org/rdf_v14_1> {
 
 genes_musclesTable <- SPARQL(url=sparqlEndPoint, genes_muscles)
 
-## gene just in Bus taurus
+## gene just in Bos taurus
 genes_musclesTable$results[genes_musclesTable$results$geneId %like% "ENSBTAG", ]
 ```
 
 ### Target species where gene is present
 
-Verify if the geneId "ENSBTAG00000014614" with gene name ACTA2 is also present in others species. 
+Verify if the geneId "ENSBTAG00000014614" with gene name ACTA2 is also present in other species. 
 
 ```{r gene-present-species} 
 

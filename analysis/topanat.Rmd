@@ -22,15 +22,15 @@ library(biomaRt)
 library(ggplot2)
 ```
 
-The TopAnat allow you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns. 
+The TopAnat allows you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns. 
 
-In this example we will use a non-model organism Bus taurus (cattle) to run the TopAnat analysis.
+In this example we will use a non-model organism *Bos taurus* (cattle) to run the TopAnat analysis.
 
 ## Create a Bgee object
 
-In order to start the analysis in TopAnat you have to create a Bgee object, as demonstrated before in the Downlaod data section.
+In order to start the analysis in TopAnat you have to create a Bgee object, as demonstrated before in the download data section.
 
-Note that in this example we will not specify any data type in the argument `dataType`, this means we will use all data types from Bgee.
+Note that in this example we do not specify any data type in the argument dataType, which means we will use all data types from Bgee.
 
 ```{r bgee-object}
 targetSpecies <- Bgee$new(species = "Bos_taurus")
@@ -38,7 +38,7 @@ targetSpecies <- Bgee$new(species = "Bos_taurus")
 
 ## loadTopAnatData()
 
-After that you should download the data for the referent species in order to allow you to perform the TopAnat analysis. The function loadTopAnatData() loads multiple files for the target species, as:
+After that you should download the data for the reference species in order to allows you to perform the TopAnat analysis. The function loadTopAnatData() loads multiple files for the target species, as:
 
 - an organ relationships file
 
@@ -50,11 +50,11 @@ After that you should download the data for the referent species in order to all
 speciesTopAnatData <- loadTopAnatData(targetSpecies)
 ```
 
-Note that the loadTopAnatData() function allow you to retrieve data from a specific developmental stage by using the `stage` argument and allow you to specify the confidence of the quality of expression calls by using the argument `confidence`.
+Note that the loadTopAnatData() function allows you to retrieve data from a specific developmental stage by using the `stage` argument and allow you to specify the confidence of the quality of expression calls by using the argument `confidence`.
 
 ## Background/foreground genes
 
-In the next setp we will perform the TopAnat analysis with topGO, for this a list of genes in the foreground and in the background are necessary.
+In the next step we will perform the TopAnat analysis with topGO, for this a list of genes in the foreground and in the background are necessary.
 
 In this example we will retrieve genes enriched for expression in muscle. 
 
@@ -106,7 +106,7 @@ myTopAnatObject <-  topAnat(speciesTopAnatData, geneList)
 
 ## Enrichment test
 
-After creating the final object the enrichment analysis is performed by using the statistical tests implemented in topGO package.
+After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package.
 
 ```{r enrichment-test}
 results <- runTest(myTopAnatObject, algorithm = 'weight', statistic = 'fisher')
@@ -116,7 +116,8 @@ results <- runTest(myTopAnatObject, algorithm = 'weight', statistic = 'fisher')
 
 ### Global results
 
-The results can retrieve by specifying the cutoff desire using the `cutoff` argument and you are also able to export the table by ordering the desire column specifying that in `ordering` argument.
+The results can be retrieved by specifying the desired cutoff using the `cutoff` argument. You can also export the table by ordering the desire column specifying that in `ordering` argument.
+
 
 ```{r global-results, fig.width=14,fig.height=5}
 tableOver <- makeTable(speciesTopAnatData, myTopAnatObject, results)

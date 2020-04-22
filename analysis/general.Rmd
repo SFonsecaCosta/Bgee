@@ -12,14 +12,14 @@ output:
 
 ## Software installation
 
-For this course, you will need R.4.0, which you can download from https://cran.r-project.org/ (if you are using RStudio cloud, that is recommended for this course, this is not necessary) and Bioconductor software version 3.11.
+For this course, you will need R.3.6, which you can download from https://cran.r-project.org/ (if you are using RStudio cloud, that is recommended for this course, this is not necessary) and Bioconductor software version 3.10.
 
 First install BiocManager package, to help you to install and manage packages from Bioconductor project. The code below can be passed directly in the terminal.
 
 ```{r eval = FALSE, echo = TRUE}
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
-    BiocManager::install(version = "3.11")
+    BiocManager::install(version = "3.10")
 ```
 
 Then install the BgeeDB package that will be used for this course, you can downloaded the package from Bioconductor by typing:
@@ -43,13 +43,13 @@ The data used during this course will be,
 
 Model organism:
 
-- Drosophila melanogaster (DM)
+- *Drosophila melanogaster* (DM)
 
 Non-model organism:
 
-- Bus taurus (BT)
+- *Bos Taurus* (BT)
 
-In more detail: the steps Extract information, Download data and Processing data we will use DM data.
+In more details: the steps Extract information, Download data and Processing data we will use DM data.
 For the TopAnat and Sparql endpoint we will use BT data.
 
 

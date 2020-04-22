@@ -45,9 +45,10 @@ head(listBgeeSpecies(release = "13.2", order = 2))
 
 ## Retrieve annotation
 
-In order to retrieve the annotation about the species and the data type of interest you have to create a Bgee object. You are able to provide in the `species` argument the name of the species or the NCBI taxonomic IDs.
+In order to retrieve the annotations about the species and the data type of interest you have to create a Bgee object. 
+In the `species` argument, you need to provide the name of the species or the NCBI taxonomic IDs.
 
-For this course we will use the Drosophila melanogaster data and the last release of Bgee (14.1).
+For this part of the course we will use the *Drosophila melanogaster* data and the last release of Bgee (14.1).
 
 ```{r create-object}
 DrosMelRNASeq <- Bgee$new(species = "Drosophila_melanogaster", dataType = "rna_seq")
@@ -62,10 +63,10 @@ The output folder from the download should be saved in your current directory, w
 
 ## Target experiments from annotation
 
-From the informative files (in this case: Drosophila_melanogaster_RNA-Seq_experiments.tsv or Drosophila_melanogaster_RNA-Seq_libraries.tsv) you are able to target experiments or libraries of interest before you start downloading the data.
+From the information files (in this case: Drosophila_melanogaster_RNA-Seq_experiments.tsv or Drosophila_melanogaster_RNA-Seq_libraries.tsv) you are able to target experiments or libraries of interest before you start downloading the data.
 
-Suggestion: Try to extract an experiment that have a minimum amount of 10 libraries and maximum of 25 libraries in Drosophila melanogaster informative file. 
-During the filtering process allow the experiment to have samples in different condictions and samples in different stages.
+Suggestion: Try to extract an experiment that have a minimum amount of 10 libraries and maximum of a 25 libraries in *Drosophila melanogaster* information file. 
+During the filtering process allow the experiment to have samples in different conditions and samples in different stages.
 
 
 ```{r select-from-annotatio, echo=TRUE}

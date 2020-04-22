@@ -27,7 +27,7 @@ knitr::opts_chunk$set(cache = FALSE, autodep = TRUE)
 
 When you collect data from Bgee database you can explore the data in multiple different ways to extract knowledge for your research.
 
-For this part of the course (processing data) we will continue using the Drosophila melanogaster data.
+For this part of the course (processing data) we will continue using the *Drosophila melanogaster* data.
 We will plot an overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.
 
 ### All RNA-Seq data
@@ -42,7 +42,7 @@ dataBgee_DM <- getData(DrosMelRNASeq)
 annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
 ```
 
-From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in Drosophila melanogaster.
+From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in *Drosophila melanogaster*.
 
 ```{r all-rnaseq-data-fig, fig.width=20,fig.height=8, warning = FALSE}
 principalInfo <- c()
@@ -59,7 +59,7 @@ ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM))) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-You can also agroup the data per correspondent anatomical entities. Note that here a violin_plot can represent multiple samples if the libraries in same experiment belongs to same the anatomical entity.
+You can also group the data by corresponding anatomical entities. Note that here a violin_plot can represent multiple samples if the libraries in same experiment belongs to same the anatomical entity.
 
 ```{r all-rnaseq-data-anntEnt, fig.width=20,fig.height=8, warning = FALSE}
 ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.entity.ID)) +
@@ -71,9 +71,9 @@ ggplot(principalInfo, aes(x = Experiment.ID, y = log2(TPM), fill = Anatomical.en
 
 ### Per experiment
 
-Using as an example, in the course we will focus in the experiment retrieved in the section Extract Information, this means the experimentId SRP002072.
+Using as an example in the course, we will focus on the experiment retrieved in the section Extract Information, this means the experimentId SRP002072.
 
-By plotting the data (just to visualize) you should be able to found the samples that belongs to the same anatomical entity and developmental stage for this experiment.
+By plotting the data (just to visualize) you should be able to find the samples that belongs to the same anatomical entity and developmental stage for this experiment.
 
 ```{r process-one-experiment, warning=FALSE}
 experiment_SRP002072 <- dplyr::filter(principalInfo, Experiment.ID == "SRP002072")
@@ -89,7 +89,7 @@ ggplot(experiment_SRP002072, aes(x = Library.ID, y = log2(TPM))) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(colour = guide_legend(override.aes = list(size=1)))
 ```
 
-From this experiment we can rescue samples from the same anatomic entity and same developmental stage. Now we will search which samples from this experiment differ by sex.
+From this experiment we can collect samples from the same anatomical entity and same developmental stage. Now we will search which samples from this experiment differ by sex.
 
 ```{r libraries-from-experiment-SRP002072}
 sexInfo <- c("male", "female")
@@ -130,7 +130,7 @@ ggstatsplot::ggscatterstats(
 
 ## Cross annotation with processed data
 
-Now from the output provided by the `getAnnotation()` function you can verify the amount of protein coding genes present, as well as other informations, for each sample.
+Now from the output provided by the `getAnnotation()` function you can verify the amount of protein coding genes present, as well as other informations for each sample.
 
 ```{r plot-PC}
 samplesId <- c(unique(libInfo$Library.ID))
@@ -144,9 +144,9 @@ ggplot(infoLib, aes(x = Library.ID, y = Protein.coding.genes.percent.present)) +
 
 ### Protein coding (All samples)
 
-In the graphic above we just plot the 2 samples from our narrow analysis. 
+In the aforementioned graph, we just plotted the 2 samples from our narrow analysis. 
 
-In order to get an overview of the % of protein coding genes for all samples from Drosophila melanogaster we should make a general plot.
+In order to get an overview of the % of protein coding genes for all samples from *Drosophila melanogaster* we should make a general plot.
 
 ```{r all-data-PC, fig.width=20,fig.height=10}
 ggplot(annotation_DrosMelRNASeq$sample.annotation, aes(x = Experiment.ID, y = Protein.coding.genes.percent.present)) +
