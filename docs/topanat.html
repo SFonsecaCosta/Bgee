@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-04-22" />
+<meta name="date" content="2020-04-26" />
 
 <title>TopAnat</title>
 
@@ -400,7 +400,7 @@ div.tocify {
 <h1 class="title toc-ignore">TopAnat</h1>
 <h4 class="author">Sara Fonseca Costa</h4>
 <address class="author_afil">
-Department of ecology and evolution, University of Lausanne, Switzerland<br><h4 class="date">April 22, 2020</h4>
+Department of ecology and evolution, University of Lausanne &amp; Swiss Institute of Bioinformatics, Switzerland<br><h4 class="date">April 26, 2020</h4>
 
 </div>
 
@@ -425,7 +425,7 @@ Department of ecology and evolution, University of Lausanne, Switzerland<br><h4 
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-22
+<strong>Last updated:</strong> 2020-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -516,16 +516,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree9907294c07372d3e907a7d584449805c765aaeabtargetblank9907294a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/9907294c07372d3e907a7d584449805c765aaeab" target="_blank">9907294</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetreec287d019b34ad31c557449f32e0d1c221e15df37targetblankc287d01a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/c287d019b34ad31c557449f32e0d1c221e15df37" target="_blank">c287d01</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree9907294c07372d3e907a7d584449805c765aaeabtargetblank9907294a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetreec287d019b34ad31c557449f32e0d1c221e15df37targetblankc287d01a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/9907294c07372d3e907a7d584449805c765aaeab" target="_blank">9907294</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/c287d019b34ad31c557449f32e0d1c221e15df37" target="_blank">c287d01</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -535,14 +535,11 @@ Ignored files:
     Ignored:    .Rhistory
 
 Untracked files:
-    Untracked:  Bos_taurus_Bgee_14_1/
     Untracked:  Drosophila_melanogaster_Bgee_14_1/
+    Untracked:  analysis/.here
+    Untracked:  genes_Drosophila_melanogaster.tsv
     Untracked:  release.tsv
     Untracked:  species_Bgee_14_1.tsv
-
-Unstaged changes:
-    Deleted:    analysis/about.Rmd
-    Deleted:    analysis/license.Rmd
 
 </code></pre>
 <p>
@@ -581,6 +578,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/SFonsecaCosta/Bgee/blob/c287d019b34ad31c557449f32e0d1c221e15df37/analysis/topanat.Rmd" target="_blank">c287d01</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-26
+</td>
+<td>
+Update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/SFonsecaCosta/Bgee/ae29961e3b7c4f01a40198e3dcf18f03e8ebdde8/docs/topanat.html" target="_blank">ae29961</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -677,15 +708,19 @@ add analysis
 <h2>Load the packages</h2>
 <pre class="r"><code>library(BgeeDB)
 library(biomaRt)
-library(ggplot2)</code></pre>
+library(ggplot2)
+library(here)</code></pre>
 <p>The TopAnat allows you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns.</p>
-<p>In this example we will use a non-model organism <em>Bos taurus</em> (cattle) to run the TopAnat analysis.</p>
+<p>In this section we will use 2 different species, <em>Drosophila melanogaster</em> and <em>Bos taurus</em> to run the TopAnat analysis.</p>
+<p>Initially we will use the output results from our previous analysis with <em>Drosophila melanogaster</em> to run TopAnat, after that we will run the TopAnat tool with data retrieved from biomart that match specific phenotype from a non-model organism.</p>
 </div>
-<div id="create-a-bgee-object" class="section level2">
-<h2>Create a Bgee object</h2>
+<div id="model-organism" class="section level2">
+<h2>Model organism</h2>
+<div id="create-a-bgee-object" class="section level3">
+<h3>Create a Bgee object</h3>
 <p>In order to start the analysis in TopAnat you have to create a Bgee object, as demonstrated before in the download data section.</p>
 <p>Note that in this example we do not specify any data type in the argument dataType, which means we will use all data types from Bgee.</p>
-<pre class="r"><code>targetSpecies &lt;- Bgee$new(species = &quot;Bos_taurus&quot;)</code></pre>
+<pre class="r"><code>targetDrosophila &lt;- Bgee$new(species = &quot;Drosophila_melanogaster&quot;)</code></pre>
 <pre><code>
 NOTE: You did not specify any data type. The argument dataType will be set to c(&quot;rna_seq&quot;,&quot;affymetrix&quot;,&quot;est&quot;,&quot;in_situ&quot;) for the next steps.
 
@@ -695,68 +730,193 @@ NOTE: the file describing Bgee species information for release 14_1 was found in
 
 API key built: 342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f</code></pre>
 </div>
-<div id="loadtopanatdata" class="section level2">
-<h2>loadTopAnatData()</h2>
+<div id="loadtopanatdata" class="section level3">
+<h3>loadTopAnatData()</h3>
 <p>After that you should download the data for the reference species in order to allows you to perform the TopAnat analysis. The function loadTopAnatData() loads multiple files for the target species, as:</p>
 <ul>
 <li><p>an organ relationships file</p></li>
 <li><p>an organ names file</p></li>
 <li><p>a gene to organs mapping file</p></li>
 </ul>
-<pre class="r"><code>speciesTopAnatData &lt;- loadTopAnatData(targetSpecies)</code></pre>
+<pre class="r"><code>drosophilaTopAnatData &lt;- loadTopAnatData(targetDrosophila, confidence = &quot;silver&quot;, stage = &quot;UBERON:0000092&quot;)</code></pre>
 <pre><code>
-NOTE: an organ relationships file was found in the download directory /Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1. Data will not be redownloaded.
+Building URLs to retrieve organ relationships from Bgee.........
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_anat_entity_relations&amp;display_type=tsv&amp;species_list=7227&amp;attr_list=SOURCE_ID&amp;attr_list=TARGET_ID&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Drosophila_melanogaster_Bgee_14_1&quot;
 
-NOTE: an organ names file was found in the download directory /Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1. Data will not be redownloaded.
+Building URLs to retrieve organ names from Bgee.................
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_anat_entities&amp;display_type=tsv&amp;species_list=7227&amp;attr_list=ID&amp;attr_list=NAME&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Drosophila_melanogaster_Bgee_14_1&quot;
 
-NOTE: a gene to organs mapping file was found in the download directory /Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1. Data will not be redownloaded.
+Building URLs to retrieve mapping of gene to organs from Bgee...
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_expression_calls&amp;display_type=tsv&amp;species_list=7227&amp;attr_list=GENE_ID&amp;attr_list=ANAT_ENTITY_ID&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1&amp;data_qual=SILVER&amp;stage_id=UBERON:0000092)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Drosophila_melanogaster_Bgee_14_1&quot;
 
 Parsing the results.............................................
 
 Adding BGEE:0 as unique root of all terms of the ontology.......
 
 Done.</code></pre>
-<p>Note that the loadTopAnatData() function allows you to retrieve data from a specific developmental stage by using the <code>stage</code> argument and allow you to specify the confidence of the quality of expression calls by using the argument <code>confidence</code>.</p>
+<p>Note that the loadTopAnatData() function allows you to retrieve data from a specific developmental stage by using the <code>stage</code> argument and allow you to specify the confidence of the quality of expression calls by using the argument <code>confidence</code>. In this particular case we use all data and the developmental stage UBERON:0000092.</p>
 </div>
-<div id="backgroundforeground-genes" class="section level2">
-<h2>Background/foreground genes</h2>
-<p>In the next step we will perform the TopAnat analysis with topGO, for this a list of genes in the foreground and in the background are necessary.</p>
-<p>In this example we will retrieve genes enriched for expression in muscle.</p>
+<div id="backgroundforeground-genes" class="section level3">
+<h3>Background/foreground genes</h3>
+<p>The next step of the analysis relies on topGO package, for this a list of genes in the foreground and in the background are necessary.</p>
+<p>Note that in this case the foreground genes will be the genes detected with high variability between the two samples from the experiment SRP002072 analysed in the processing data section.</p>
+</div>
 <div id="retrieve-info-from-biomart" class="section level3">
 <h3>Retrieve info from biomaRt</h3>
-<p>The initial step is to retrieve information for the target species by using biomart.</p>
-<pre class="r"><code>ensembl &lt;- useMart(&quot;ENSEMBL_MART_ENSEMBL&quot;, dataset=&quot;btaurus_gene_ensembl&quot;, host=&quot;mar2016.archive.ensembl.org&quot;)
+<p>The initial step is to retrieve information (ensembl gene id) for the target species by using biomart.</p>
+<pre class="r"><code>ensemblDM &lt;- useMart(&quot;ENSEMBL_MART_ENSEMBL&quot;, dataset=&quot;dmelanogaster_gene_ensembl&quot;, host=&quot;mar2016.archive.ensembl.org&quot;)
 
 # background genes
-universe &lt;- getBM(attributes=c(&quot;ensembl_gene_id&quot;,&quot;phenotype_description&quot;),mart=ensembl)</code></pre>
+universeDM &lt;- getBM(attributes=c(&quot;ensembl_gene_id&quot;),mart=ensemblDM)</code></pre>
+<pre><code>Cache found</code></pre>
+<pre class="r"><code># foreground genes from the analysis
+foregroundDM &lt;- read.table(file = here(&quot;genes_Drosophila_melanogaster.tsv&quot;), header=F, sep=&quot;\t&quot;)
+foregroundDM &lt;- unlist(foregroundDM, use.names = FALSE)</code></pre>
+<p>We will use this list of genes to create our geneList object.</p>
+<pre class="r"><code>geneListDM &lt;- factor(as.integer(unique(universeDM$ensembl_gene_id) %in% foregroundDM))
+names(geneListDM) &lt;- unique(universeDM$ensembl_gene_id)
+summary(geneListDM)</code></pre>
+<pre><code>    0     1 
+17533    26 </code></pre>
+</div>
+<div id="topgo-object" class="section level3">
+<h3>topGO object</h3>
+<p>Create the object with data loaded and the gene list with foreground genes.</p>
+<pre class="r"><code>myTopAnatObject_DM &lt;-  topAnat(drosophilaTopAnatData, geneListDM)</code></pre>
+<pre><code>
+Checking topAnatData object.............
+
+Checking gene list......................
+
+WARNING: Some genes in your gene list have no expression data in Bgee, and will not be included in the analysis. 17478 genes in background will be kept.
+
+Building most specific Ontology terms...  (  461  Ontology terms found. )
+
+Building DAG topology...................  (  1048  Ontology terms and  1964  relations. )
+
+Annotating nodes (Can be long)..........  (  17478  genes annotated to the Ontology terms. )</code></pre>
+</div>
+<div id="enrichment-test" class="section level3">
+<h3>Enrichment test</h3>
+<p>After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package.</p>
+<pre class="r"><code>results_DM &lt;- runTest(myTopAnatObject_DM, algorithm = &#39;classic&#39;, statistic = &#39;fisher&#39;)</code></pre>
+<pre><code>
+             -- Classic Algorithm -- 
+
+         the algorithm is scoring 181 nontrivial nodes
+         parameters: 
+             test statistic: fisher</code></pre>
+</div>
+<div id="results" class="section level3">
+<h3>Results</h3>
+<p>The results can be retrieved by specifying the desired cutoff using the <code>cutoff</code> argument. You can also export the table by ordering the desire column specifying that in <code>ordering</code> argument.</p>
+<pre class="r"><code>tableOver &lt;- makeTable(drosophilaTopAnatData, myTopAnatObject_DM, results_DM)</code></pre>
+<pre><code>
+Building the results table for the 406 significant terms at FDR threshold of 1...
+Ordering results by pValue column in increasing order...
+Done</code></pre>
+<pre class="r"><code>## look 
+head(tableOver,4)</code></pre>
+<pre><code>                      organId                  organName annotated significant
+UBERON:0000992 UBERON:0000992               female gonad     12885          26
+UBERON:0003134 UBERON:0003134  female reproductive organ     12885          26
+UBERON:0000474 UBERON:0000474 female reproductive system     13078          26
+UBERON:0003100 UBERON:0003100            female organism     13078          26
+               expected foldEnrichment       pValue        FDR
+UBERON:0000992    19.17       1.356286 0.0003585320 0.04185368
+UBERON:0003134    19.17       1.356286 0.0003585320 0.04185368
+UBERON:0000474    19.45       1.336761 0.0005279216 0.04185368
+UBERON:0003100    19.45       1.336761 0.0005279216 0.04185368</code></pre>
+</div>
+</div>
+<div id="non-model-organism" class="section level2">
+<h2>Non-Model organism</h2>
+<p>In this example we will use a non-model organism <em>Bos taurus</em> (cattle) to run the TopAnat analysis.</p>
+<div id="create-a-bgee-object-1" class="section level3">
+<h3>Create a Bgee object</h3>
+<p>In order to start the analysis in TopAnat you have to create a new Bgee object, as demonstrated before.</p>
+<p>Note that in this example we do not specify any data type in the argument dataType, as in the previous example, which means that we will use all data types from Bgee once again.</p>
+<pre class="r"><code>targetBT &lt;- Bgee$new(species = &quot;Bos_taurus&quot;)</code></pre>
+<pre><code>
+NOTE: You did not specify any data type. The argument dataType will be set to c(&quot;rna_seq&quot;,&quot;affymetrix&quot;,&quot;est&quot;,&quot;in_situ&quot;) for the next steps.
+
+Querying Bgee to get release information...
+
+NOTE: the file describing Bgee species information for release 14_1 was found in the download directory /Users/sfonseca1/Bgee. Data will not be redownloaded.
+
+API key built: 342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f</code></pre>
+</div>
+<div id="loadtopanatdata-1" class="section level3">
+<h3>loadTopAnatData()</h3>
+<p>After that you should download the data for the reference species in order to allows you to perform the TopAnat analysis. Note that in this case we will not specify any developmental stage or confidence in the calls.</p>
+<pre class="r"><code>bostaurusTopAnatData &lt;- loadTopAnatData(targetBT)</code></pre>
+<pre><code>
+Building URLs to retrieve organ relationships from Bgee.........
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_anat_entity_relations&amp;display_type=tsv&amp;species_list=9913&amp;attr_list=SOURCE_ID&amp;attr_list=TARGET_ID&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1&quot;
+
+Building URLs to retrieve organ names from Bgee.................
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_anat_entities&amp;display_type=tsv&amp;species_list=9913&amp;attr_list=ID&amp;attr_list=NAME&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1&quot;
+
+Building URLs to retrieve mapping of gene to organs from Bgee...
+   URL successfully built (https://r.bgee.org/bgee14_1/?page=r_package&amp;action=get_expression_calls&amp;display_type=tsv&amp;species_list=9913&amp;attr_list=GENE_ID&amp;attr_list=ANAT_ENTITY_ID&amp;api_key=342617eeb6e728567eeaf07855efc4fa274e6ad21dde329ecce7bd3668c4efa9f23c364808e45b7b772594a592dfe6855ff75027e7983a848ff43a25416ebe6f&amp;source=BgeeDB_R_package&amp;source_version=2.12.1&amp;data_qual=SILVER)
+   Submitting URL to Bgee webservice (can be long)
+   Got results from Bgee webservice. Files are written in &quot;/Users/sfonseca1/Bgee/Bos_taurus_Bgee_14_1&quot;
+
+Parsing the results.............................................
+
+Adding BGEE:0 as unique root of all terms of the ontology.......
+
+Done.</code></pre>
+</div>
+<div id="backgroundforeground-genes-1" class="section level3">
+<h3>Background/foreground genes</h3>
+<p>In the next step we will perform the TopAnat analysis with topGO, for this a list of genes in the foreground and in the background are necessary.</p>
+<p>In this example we will retrieve genes enriched for expression in muscle.</p>
+</div>
+<div id="retrieve-info-from-biomart-1" class="section level3">
+<h3>Retrieve info from biomaRt</h3>
+<p>The initial step is to retrieve information for the target species by using biomart.</p>
+<pre class="r"><code>ensembl_BT &lt;- useMart(&quot;ENSEMBL_MART_ENSEMBL&quot;, dataset=&quot;btaurus_gene_ensembl&quot;, host=&quot;mar2016.archive.ensembl.org&quot;)
+
+# background genes
+universe_BT &lt;- getBM(attributes=c(&quot;ensembl_gene_id&quot;,&quot;phenotype_description&quot;),mart=ensembl_BT)</code></pre>
 <pre><code>Cache found</code></pre>
 <pre class="r"><code># select phenotypes related to muscle
-phenotypes &lt;- grep(&quot;musc&quot;, unique(universe$phenotype_description), value=T)
+phenotypes &lt;- grep(&quot;musc&quot;, unique(universe_BT$phenotype_description), value=T)
 
 # Foreground genes are those with an annotated phenotype related to muscle.
-myGenes &lt;- unique(universe$ensembl_gene_id[universe$phenotype_description %in% phenotypes])
+myGenes &lt;- unique(universe_BT$ensembl_gene_id[universe_BT$phenotype_description %in% phenotypes])
 
 # list vector with 0 and 1  
-geneList &lt;- factor(as.integer(unique(universe$ensembl_gene_id) %in% myGenes))
-names(geneList) &lt;- unique(universe$ensembl_gene_id)
-summary(geneList)</code></pre>
+geneList_BT &lt;- factor(as.integer(unique(universe_BT$ensembl_gene_id) %in% myGenes))
+names(geneList_BT) &lt;- unique(universe_BT$ensembl_gene_id)
+summary(geneList_BT)</code></pre>
 <pre><code>    0     1 
 24609     7 </code></pre>
 <p>Note that you have just 7 genes in the foreground that match ‘musc’ keyword when you extract uniques with <code>getBM()</code> function.</p>
 <p>If we do a search in UniProtKB/Swiss-Prot entries with keyword ‘muscle’ we will found the following genes that can be part of our foreground:</p>
 <pre class="r"><code>phenotypes &lt;- c(&quot;ENSBTAG00000008394&quot;, &quot;ENSBTAG00000006030&quot;, &quot;ENSBTAG00000015644&quot;, &quot;ENSBTAG00000011424&quot;, &quot;ENSBTAG00000010799&quot;, &quot;ENSBTAG00000014614&quot;, &quot;ENSBTAG00000011869&quot;, &quot;ENSBTAG00000045757&quot;, &quot;ENSBTAG00000026266&quot;, &quot;ENSBTAG00000022158&quot;, &quot;ENSBTAG00000006419&quot;, &quot;ENSBTAG00000030425&quot;, &quot;ENSBTAG00000009707&quot;, &quot;ENSBTAG00000009749&quot;, &quot;ENSBTAG00000033217&quot;, &quot;ENSBTAG00000007196&quot;, &quot;ENSBTAG00000021218&quot;, &quot;ENSBTAG00000005333&quot;, &quot;ENSBTAG00000006424&quot;, &quot;ENSBTAG00000005353&quot;, &quot;ENSBTAG00000021992&quot;, &quot;ENSBTAG00000026972&quot;, &quot;ENSBTAG00000005970&quot;, &quot;ENSBTAG00000046332&quot;, &quot;ENSBTAG00000018285&quot;, &quot;ENSBTAG00000005714&quot;, &quot;ENSBTAG00000016024&quot;, &quot;ENSBTAG00000017992&quot;, &quot;ENSBTAG00000014003&quot;, &quot;ENSBTAG00000018204&quot;, &quot;ENSBTAG00000019159&quot;)</code></pre>
 <p>We will use this list of genes to create our geneList object.</p>
-<pre class="r"><code>geneList &lt;- factor(as.integer(unique(universe$ensembl_gene_id) %in% phenotypes))
-names(geneList) &lt;- unique(universe$ensembl_gene_id)
-summary(geneList)</code></pre>
+<pre class="r"><code>geneList_BT &lt;- factor(as.integer(unique(universe_BT$ensembl_gene_id) %in% phenotypes))
+names(geneList_BT) &lt;- unique(universe_BT$ensembl_gene_id)
+summary(geneList_BT)</code></pre>
 <pre><code>    0     1 
 24585    31 </code></pre>
 </div>
-</div>
-<div id="topgo-object" class="section level2">
-<h2>topGO object</h2>
-<p>Create the object with data loaded and the gene list with foreground genes.</p>
-<pre class="r"><code>myTopAnatObject &lt;-  topAnat(speciesTopAnatData, geneList)</code></pre>
+<div id="topgo-object-1" class="section level3">
+<h3>topGO object</h3>
+<p>Create the object with data loaded and the gene list with foreground genes (phenotypes from the search in UniProtKB/Swiss-Prot).</p>
+<pre class="r"><code>myTopAnatObject_BT &lt;-  topAnat(bostaurusTopAnatData, geneList_BT)</code></pre>
 <pre><code>
 Checking topAnatData object.............
 
@@ -770,10 +930,10 @@ Building DAG topology...................  (  172  Ontology terms and  260  relat
 
 Annotating nodes (Can be long)..........  (  22645  genes annotated to the Ontology terms. )</code></pre>
 </div>
-<div id="enrichment-test" class="section level2">
-<h2>Enrichment test</h2>
-<p>After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package.</p>
-<pre class="r"><code>results &lt;- runTest(myTopAnatObject, algorithm = &#39;weight&#39;, statistic = &#39;fisher&#39;)</code></pre>
+<div id="enrichment-test-1" class="section level3">
+<h3>Enrichment test</h3>
+<p>After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package. Note that in this example we will use weight in the argument <code>algorithm</code>.</p>
+<pre class="r"><code>results_BT &lt;- runTest(myTopAnatObject_BT, algorithm = &#39;weight&#39;, statistic = &#39;fisher&#39;)</code></pre>
 <pre><code>
              -- Weight Algorithm -- 
 
@@ -819,12 +979,12 @@ Annotating nodes (Can be long)..........  (  22645  genes annotated to the Ontol
 <pre><code>
      Level 1:   1 nodes to be scored.</code></pre>
 </div>
-<div id="results" class="section level2">
-<h2>Results</h2>
-<div id="global-results" class="section level3">
-<h3>Global results</h3>
+<div id="results-1" class="section level3">
+<h3>Results</h3>
+<div id="global-results" class="section level4">
+<h4>Global results</h4>
 <p>The results can be retrieved by specifying the desired cutoff using the <code>cutoff</code> argument. You can also export the table by ordering the desire column specifying that in <code>ordering</code> argument.</p>
-<pre class="r"><code>tableOver &lt;- makeTable(speciesTopAnatData, myTopAnatObject, results)</code></pre>
+<pre class="r"><code>tableOver &lt;- makeTable(bostaurusTopAnatData, myTopAnatObject_BT, results_BT)</code></pre>
 <pre><code>
 Building the results table for the 172 significant terms at FDR threshold of 1...
 Ordering results by pValue column in increasing order...
@@ -873,16 +1033,16 @@ SFonsecaCosta
 </div>
 </div>
 </div>
-<div id="retrieve-significant-genes" class="section level3">
-<h3>Retrieve significant genes</h3>
-<pre class="r"><code>tableOver &lt;- makeTable(speciesTopAnatData, myTopAnatObject, results, cutoff = 0.01, ordering = -8)</code></pre>
+<div id="retrieve-significant-genes" class="section level4">
+<h4>Retrieve significant genes</h4>
+<pre class="r"><code>tableOver &lt;- makeTable(bostaurusTopAnatData, myTopAnatObject_BT, results_BT, cutoff = 0.01, ordering = -8)</code></pre>
 <pre><code>
 Building the results table for the 5 significant terms at FDR threshold of 0.01...
 Ordering results by FDR column in decreasing order...
 Done</code></pre>
 <pre class="r"><code>targetUberon &lt;- c(&quot;UBERON:0001134&quot;, &quot;UBERON:0001111&quot;, &quot;UBERON:0001401&quot;, &quot;UBERON:0002000&quot;, &quot;UBERON:0034908&quot;)
 
-termStat(myTopAnatObject, targetUberon) </code></pre>
+termStat(myTopAnatObject_BT, targetUberon) </code></pre>
 <pre><code>               Annotated Significant Expected
 UBERON:0001134     16812          31    23.01
 UBERON:0001111     14106          30    19.31
@@ -890,8 +1050,8 @@ UBERON:0001401     11858          28    16.23
 UBERON:0002000     14178          31    19.41
 UBERON:0034908     14475          31    19.82</code></pre>
 <p>In order to use some target gene in the next section (Sparql endpoint), we should retrieve the ensembl IDs for one of the anatomical entities that are significant.</p>
-<pre class="r"><code>annotated &lt;- genesInTerm(myTopAnatObject, targetUberon)[[&quot;UBERON:0001134&quot;]]
-annotated[annotated %in% sigGenes(myTopAnatObject)]</code></pre>
+<pre class="r"><code>annotated &lt;- genesInTerm(myTopAnatObject_BT, targetUberon)[[&quot;UBERON:0001134&quot;]]
+annotated[annotated %in% sigGenes(myTopAnatObject_BT)]</code></pre>
 <pre><code> [1] &quot;ENSBTAG00000005333&quot; &quot;ENSBTAG00000005353&quot; &quot;ENSBTAG00000005714&quot;
  [4] &quot;ENSBTAG00000005970&quot; &quot;ENSBTAG00000006030&quot; &quot;ENSBTAG00000006419&quot;
  [7] &quot;ENSBTAG00000006424&quot; &quot;ENSBTAG00000007196&quot; &quot;ENSBTAG00000008394&quot;
@@ -927,11 +1087,11 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] ggplot2_3.3.0        biomaRt_2.42.1       BgeeDB_2.12.1       
- [4] tidyr_1.0.2          topGO_2.38.1         SparseM_1.78        
- [7] GO.db_3.10.0         AnnotationDbi_1.48.0 IRanges_2.20.2      
-[10] S4Vectors_0.24.4     Biobase_2.46.0       graph_1.64.0        
-[13] BiocGenerics_0.32.0  workflowr_1.6.1     
+ [1] here_0.1             ggplot2_3.3.0        biomaRt_2.42.1      
+ [4] BgeeDB_2.12.1        tidyr_1.0.2          topGO_2.38.1        
+ [7] SparseM_1.78         GO.db_3.10.0         AnnotationDbi_1.48.0
+[10] IRanges_2.20.2       S4Vectors_0.24.4     Biobase_2.46.0      
+[13] graph_1.64.0         BiocGenerics_0.32.0  workflowr_1.6.1     
 
 loaded via a namespace (and not attached):
  [1] httr_1.4.1           bit64_0.9-7          assertthat_0.2.1    
@@ -957,6 +1117,7 @@ loaded via a namespace (and not attached):
 [61] rprojroot_1.3-2      stringi_1.4.6        Rcpp_1.0.4.6        
 [64] vctrs_0.2.4          dbplyr_1.4.2         tidyselect_1.0.0    
 [67] xfun_0.13           </code></pre>
+</div>
 </div>
 </div>
 </div>

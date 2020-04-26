@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-04-22" />
+<meta name="date" content="2020-04-26" />
 
 <title>Processing data</title>
 
@@ -400,7 +400,7 @@ div.tocify {
 <h1 class="title toc-ignore">Processing data</h1>
 <h4 class="author">Sara Fonseca Costa</h4>
 <address class="author_afil">
-Department of ecology and evolution, University of Lausanne, Switzerland<br><h4 class="date">April 22, 2020</h4>
+Department of ecology and evolution, University of Lausanne &amp; Swiss Institute of Bioinformatics, Switzerland<br><h4 class="date">April 26, 2020</h4>
 
 </div>
 
@@ -425,7 +425,7 @@ Department of ecology and evolution, University of Lausanne, Switzerland<br><h4 
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-22
+<strong>Last updated:</strong> 2020-04-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -516,16 +516,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree5ebe080e3075596f1d5d28d588e583a8e43e6141targetblank5ebe080a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/5ebe080e3075596f1d5d28d588e583a8e43e6141" target="_blank">5ebe080</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetreec287d019b34ad31c557449f32e0d1c221e15df37targetblankc287d01a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/SFonsecaCosta/Bgee/tree/c287d019b34ad31c557449f32e0d1c221e15df37" target="_blank">c287d01</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetree5ebe080e3075596f1d5d28d588e583a8e43e6141targetblank5ebe080a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomSFonsecaCostaBgeetreec287d019b34ad31c557449f32e0d1c221e15df37targetblankc287d01a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/5ebe080e3075596f1d5d28d588e583a8e43e6141" target="_blank">5ebe080</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/SFonsecaCosta/Bgee/tree/c287d019b34ad31c557449f32e0d1c221e15df37" target="_blank">c287d01</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,9 +534,11 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
 
-Unstaged changes:
-    Deleted:    analysis/about.Rmd
-    Deleted:    analysis/license.Rmd
+Untracked files:
+    Untracked:  Drosophila_melanogaster_Bgee_14_1/
+    Untracked:  analysis/.here
+    Untracked:  release.tsv
+    Untracked:  species_Bgee_14_1.tsv
 
 </code></pre>
 <p>
@@ -575,6 +577,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/SFonsecaCosta/Bgee/blob/c287d019b34ad31c557449f32e0d1c221e15df37/analysis/processdata.Rmd" target="_blank">c287d01</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-26
+</td>
+<td>
+Update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/SFonsecaCosta/Bgee/d99876e34822e685e030a9f536a444e486016c31/docs/processdata.html" target="_blank">d99876e</a>
+</td>
+<td>
+SFonsecaCosta
+</td>
+<td>
+2020-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -773,7 +809,9 @@ add analysis
 <h2>Load the packages</h2>
 <pre class="r"><code>library(BgeeDB)
 library(ggplot2)
-library(ggstatsplot)</code></pre>
+library(ggstatsplot)
+library(varhandle)
+library(here)</code></pre>
 </div>
 <div id="processing-the-data" class="section level2">
 <h2>Processing the data</h2>
@@ -781,12 +819,12 @@ library(ggstatsplot)</code></pre>
 <p>For this part of the course (processing data) we will continue using the <em>Drosophila melanogaster</em> data. We will plot an overview of the all RNA-Seq data available for this species and then we go more narrow until the comparison between 2 samples that just differ by sex.</p>
 <div id="all-rna-seq-data" class="section level3">
 <h3>All RNA-Seq data</h3>
-<p>When we download/collect all data for a particular data type from Bgee you are working with processed data.</p>
-<p>From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in <em>Drosophila melanogaster</em>.</p>
+<p>When we download/collect all data for a particular data type from Bgee you are working with processed data (e.g., TPMs for RNA-seq).</p>
+<p>From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot of log2(TPM) for all libraries that are present in Bgee for RNA-Seq data in <em>Drosophila melanogaster</em>.</p>
 <pre class="r"><code>principalInfo &lt;- c()
 for (i in dataBgee_DM) {
   
-  collect &lt;- i[c(1,2,4,5,7,9, 10,12)]
+  collect &lt;- i[c(1,2,4,5,7,9, 10,12,14)]
   principalInfo &lt;- rbind(principalInfo, collect)
 }
 
@@ -934,8 +972,8 @@ SFonsecaCosta
 <p>From this experiment we can collect samples from the same anatomical entity and same developmental stage. Now we will search which samples from this experiment differ by sex.</p>
 <pre class="r"><code>sexInfo &lt;- c(&quot;male&quot;, &quot;female&quot;)
 libInfo &lt;- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
-print(unique(libInfo$Library.ID))</code></pre>
-<p>From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. Just verify how they correlate in overall (relative expression - TPM).</p>
+cat(unique(libInfo$Library.ID))</code></pre>
+<p>From our filtering we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. Just verify how they correlate in overall (relative expression - TPM).</p>
 <pre class="r"><code>## extract just fundamental columns to make a reformated data.frame
 libInfo &lt;- libInfo[c(1,2,6)]
 
@@ -997,11 +1035,75 @@ SFonsecaCosta
 </table>
 </div>
 </div>
+<p>Note that until this moment we are working and ploting the relative expression values of the genes across libraries, but this doens’t mean that all of this genes were classified in Bgee database as present.</p>
+<p>Using the same libraries that were used to make the correlation plot, we can explore the gene variability between this two samples by using just the genes that were classified by Bgee database as present.</p>
+<pre class="r"><code>experiment_SRX019652 &lt;- dplyr::filter(principalInfo, Experiment.ID == &quot;SRP002072&quot; &amp; Library.ID == &quot;SRX019652&quot; &amp; Detection.flag == &quot;present&quot;)
+experiment_SRX019652 &lt;- experiment_SRX019652[c(3,8)]
+colnames(experiment_SRX019652) &lt;- c(&quot;Gene.ID&quot;, &quot;TPM_SRX019652&quot;)
+
+experiment_SRX019653 &lt;- dplyr::filter(principalInfo, Experiment.ID == &quot;SRP002072&quot; &amp; Library.ID == &quot;SRX019653&quot;&amp; Detection.flag == &quot;present&quot;)
+experiment_SRX019653 &lt;- experiment_SRX019653[c(3,8)]
+colnames(experiment_SRX019653) &lt;- c(&quot;Gene.ID&quot;, &quot;TPM_SRX019653&quot;)
+
+mergeLibs &lt;- merge(experiment_SRX019652, experiment_SRX019653, by = &quot;Gene.ID&quot;)
+mergeLibs$meanSamples &lt;- apply(mergeLibs[,2:3], 1, mean)
+mergeLibs$sdSamples &lt;- apply(mergeLibs[,2:3], 1, sd)
+
+ggplot(mergeLibs, aes(x=log(meanSamples), y=log(sdSamples)))+
+  geom_point(aes(color= ifelse(log(meanSamples)&gt;8, &quot;red&quot;, &quot;blue&quot;)))+ labs(title=&quot;Gene variability&quot;,
+                     x =&quot;Log mean&quot;, y = &quot;Log standard deviation&quot;)+ theme(legend.position = &quot;none&quot;)+
+  geom_vline(xintercept = 8, col=&quot;gray&quot;,linetype = &quot;dashed&quot;)+geom_hline(yintercept = 5, col=&quot;gray&quot;,linetype = &quot;dashed&quot;)</code></pre>
+<p><img src="figure/processdata.Rmd/gene-variability-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>selectGenesDM &lt;- dplyr::filter(mergeLibs, log(mergeLibs$meanSamples) &gt; 8 &amp; log(mergeLibs$sdSamples) &gt; 5)
+write.table(selectGenesDM$Gene.ID, file = here(&quot;genes_Drosophila_melanogaster.tsv&quot;), sep=&quot;\t&quot;, col.names = FALSE, row.names = FALSE)
+head(selectGenesDM)</code></pre>
+<p>From our analysis we can detected that 26 genes present high variability between the two samples. This list of the genes can be used in analysis as TopAnat to verify if they enrich to specific target anatomical terms.</p>
+<p>As summary, from this small analysis you were able to use the Bgee processed data to perform downstream analysis, such as correlation analysis or gene varialibility discovery across samples. But with bgee data you can do even more such as clustering or differential expression (DE) analysis. Normally for downstream analysis as DE the stand-alone tools expect counts as input, this information you can retrieve to all samples when you use the getData() function.</p>
+<p>In order to get an overview of the entire experiment SRP002072 from where you collect the two sample above, perform a principal component analysis (PCA) for all libraries that belongs to this particular experiment using the raw counts. Note this can be done already with normalized values (TPM or FPKM).</p>
+<pre class="r"><code>## collect raw counts for each library
+principalInfo_raw &lt;- c()
+for (i in dataBgee_DM) {
+  
+  collect &lt;- i[c(1,2,4,5,7,9, 10,11,14)]
+  principalInfo_raw &lt;- rbind(principalInfo_raw, collect)
+}
+## just present in bgee
+experiment_SRP002072 &lt;- dplyr::filter(principalInfo_raw, Experiment.ID == &quot;SRP002072&quot; &amp; Detection.flag == &quot;present&quot;)
+libInfoData &lt;- experiment_SRP002072[c(2,3,8,9)]
+libInfoPresent &lt;- libInfoData[c(1,2,3)]
+
+reshapeTablePresentRaw &lt;- reshape(libInfoPresent, direction=&#39;wide&#39;,idvar=&#39;Library.ID&#39;, timevar=&#39;Gene.ID&#39;)
+allTablePresentRaw &lt;- t(reshapeTablePresentRaw)
+
+## clean data after transformation
+colnames(allTablePresentRaw) &lt;- NULL
+colnames(allTablePresentRaw) &lt;- allTablePresentRaw[1,]
+allTablePresentRaw &lt;- allTablePresentRaw[-1,]
+allTablePresentRaw &lt;- data.frame(allTablePresentRaw[,1:12])
+allTablePresentRaw &lt;- unfactor(allTablePresentRaw[,1:12])
+
+## remove rows with NA
+finalTableRaw &lt;- na.omit(allTablePresentRaw)
+
+## prepare final table to PCA
+finalTableRaw &lt;- t(finalTableRaw)
+
+raw_pca &lt;- prcomp(finalTableRaw)
+percentage &lt;- round(raw_pca$sdev / sum(raw_pca$sdev) * 100, 2)
+percentage &lt;- paste0(colnames(raw_pca$x), &quot;(&quot;, as.character(percentage), &quot;%)&quot;)
+
+raw_pca &lt;- as.data.frame(raw_pca$x)
+raw_pca$Anatomical_Name &lt;- c(&quot;embryo&quot;,&quot;embryo&quot;,&quot;embryo&quot;,&quot;embryo&quot;,&quot;larva&quot;,&quot;larva&quot;,&quot;larva&quot;, &quot;pupa&quot;,&quot;pupa&quot; ,&quot;adult organism&quot;,&quot;adult organism&quot;,&quot;adult organism&quot;)
+
+p&lt;-ggplot(raw_pca,aes(x=PC1,y=PC2,color=Anatomical_Name, label = rownames(raw_pca) ))
+p&lt;-p+geom_point()+ xlab(percentage[1]) + ylab(percentage[2])+geom_text(size=2)+labs(title=&quot;Libraries from SRP002072 experiment&quot;)
+p</code></pre>
+<p><img src="figure/processdata.Rmd/pca-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="cross-annotation-with-processed-data" class="section level2">
 <h2>Cross annotation with processed data</h2>
-<p>Now from the output provided by the <code>getAnnotation()</code> function you can verify the amount of protein coding genes present, as well as other informations for each sample.</p>
+<p>After having explored the processed data from Bgee we can still cross information from the annotation with processed data. From the output provided by the <code>getAnnotation()</code> function we can verify the amount of protein coding genes present, as well as other informations for each sample (e.g., genic region present per sample or percentage of intergenic present).</p>
 <pre class="r"><code>samplesId &lt;- c(unique(libInfo$Library.ID))
 infoLib &lt;- dplyr::filter(annotation_DrosMelRNASeq$sample.annotation, Library.ID %in% samplesId)
 
