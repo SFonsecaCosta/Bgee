@@ -3,7 +3,7 @@ title: "Processing data"
 author: 
 - name: Sara Fonseca Costa
   affiliation:
-  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+  - &DEE Department of ecology and evolution, University of Lausanne & Swiss Institute of Bioinformatics, Switzerland
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
@@ -16,6 +16,8 @@ output:
 library(BgeeDB)
 library(ggplot2)
 library(ggstatsplot)
+library(varhandle)
+library(here)
 ```
 
 
@@ -32,7 +34,7 @@ We will plot an overview of the all RNA-Seq data available for this species and 
 
 ### All RNA-Seq data
 
-When we download/collect all data for a particular data type from Bgee you are working with processed data.
+When we download/collect all data for a particular data type from Bgee you are working with processed data (e.g., TPMs for RNA-seq).
 
 ```{r all-rnaseq-data, message = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = T,results = "hide")
@@ -42,13 +44,13 @@ dataBgee_DM <- getData(DrosMelRNASeq)
 annotation_DrosMelRNASeq <- getAnnotation(DrosMelRNASeq)
 ```
 
-From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot for all libraries that are present in Bgee for RNA-Seq data in *Drosophila melanogaster*.
+From this processed data you can plot for each sample, referent to each experiment, the distribution of relative expression values. In the graphic bellow we plot the boxplot of log2(TPM) for all libraries that are present in Bgee for RNA-Seq data in *Drosophila melanogaster*.
 
 ```{r all-rnaseq-data-fig, fig.width=20,fig.height=8, warning = FALSE}
 principalInfo <- c()
 for (i in dataBgee_DM) {
   
-  collect <- i[c(1,2,4,5,7,9, 10,12)]
+  collect <- i[c(1,2,4,5,7,9, 10,12,14)]
   principalInfo <- rbind(principalInfo, collect)
 }
 
@@ -94,10 +96,10 @@ From this experiment we can collect samples from the same anatomical entity and 
 ```{r libraries-from-experiment-SRP002072}
 sexInfo <- c("male", "female")
 libInfo <- dplyr::filter(experiment_SRP002072, Sex %in% sexInfo)
-print(unique(libInfo$Library.ID))
+cat(unique(libInfo$Library.ID))
 ```
 
-From our analysis we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. 
+From our filtering we know that the samples retrieved as unique have the same anatomical entity and same developmental stage but they differ in sex. 
 Just verify how they correlate in overall (relative expression - TPM).
 
 
@@ -127,10 +129,88 @@ ggstatsplot::ggscatterstats(
 )
 ```
 
+Note that until this moment we are working and ploting the relative expression values of the genes across libraries, but this doens't mean that all of this genes were classified in Bgee database as present.
+
+Using the same libraries that were used to make the correlation plot, we can explore the gene variability between this two samples by using just the genes that were classified by Bgee database as present. 
+
+```{r gene-variability, warning=FALSE}
+experiment_SRX019652 <- dplyr::filter(principalInfo, Experiment.ID == "SRP002072" & Library.ID == "SRX019652" & Detection.flag == "present")
+experiment_SRX019652 <- experiment_SRX019652[c(3,8)]
+colnames(experiment_SRX019652) <- c("Gene.ID", "TPM_SRX019652")
+
+experiment_SRX019653 <- dplyr::filter(principalInfo, Experiment.ID == "SRP002072" & Library.ID == "SRX019653"& Detection.flag == "present")
+experiment_SRX019653 <- experiment_SRX019653[c(3,8)]
+colnames(experiment_SRX019653) <- c("Gene.ID", "TPM_SRX019653")
+
+mergeLibs <- merge(experiment_SRX019652, experiment_SRX019653, by = "Gene.ID")
+mergeLibs$meanSamples <- apply(mergeLibs[,2:3], 1, mean)
+mergeLibs$sdSamples <- apply(mergeLibs[,2:3], 1, sd)
+
+ggplot(mergeLibs, aes(x=log(meanSamples), y=log(sdSamples)))+
+  geom_point(aes(color= ifelse(log(meanSamples)>8, "red", "blue")))+ labs(title="Gene variability",
+                     x ="Log mean", y = "Log standard deviation")+ theme(legend.position = "none")+
+  geom_vline(xintercept = 8, col="gray",linetype = "dashed")+geom_hline(yintercept = 5, col="gray",linetype = "dashed")
+  
+selectGenesDM <- dplyr::filter(mergeLibs, log(mergeLibs$meanSamples) > 8 & log(mergeLibs$sdSamples) > 5)
+write.table(selectGenesDM$Gene.ID, file = here("genes_Drosophila_melanogaster.tsv"), sep="\t", col.names = FALSE, row.names = FALSE)
+head(selectGenesDM)
+```
+
+From our analysis we can detected that 26 genes present high variability between the two samples.
+This list of the genes can be used in analysis as TopAnat to verify if they enrich to specific target anatomical terms.
+
+As summary, from this small analysis you were able to use the Bgee processed data to perform downstream analysis, such as correlation analysis or gene varialibility discovery across samples.
+But with bgee data you can do even more such as clustering or differential expression (DE) analysis.
+Normally for downstream analysis as DE the stand-alone tools expect counts as input, this information you can retrieve to all samples when you use the getData() function.
+
+In order to get an overview of the entire experiment SRP002072 from where you collect the two sample above, perform a principal component analysis (PCA) for all libraries that belongs to this particular experiment using the raw counts. Note this can be done already with normalized values (TPM or FPKM).
+
+```{r pca, warning=FALSE}
+## collect raw counts for each library
+principalInfo_raw <- c()
+for (i in dataBgee_DM) {
+  
+  collect <- i[c(1,2,4,5,7,9, 10,11,14)]
+  principalInfo_raw <- rbind(principalInfo_raw, collect)
+}
+## just present in bgee
+experiment_SRP002072 <- dplyr::filter(principalInfo_raw, Experiment.ID == "SRP002072" & Detection.flag == "present")
+libInfoData <- experiment_SRP002072[c(2,3,8,9)]
+libInfoPresent <- libInfoData[c(1,2,3)]
+
+reshapeTablePresentRaw <- reshape(libInfoPresent, direction='wide',idvar='Library.ID', timevar='Gene.ID')
+allTablePresentRaw <- t(reshapeTablePresentRaw)
+
+## clean data after transformation
+colnames(allTablePresentRaw) <- NULL
+colnames(allTablePresentRaw) <- allTablePresentRaw[1,]
+allTablePresentRaw <- allTablePresentRaw[-1,]
+allTablePresentRaw <- data.frame(allTablePresentRaw[,1:12])
+allTablePresentRaw <- unfactor(allTablePresentRaw[,1:12])
+
+## remove rows with NA
+finalTableRaw <- na.omit(allTablePresentRaw)
+
+## prepare final table to PCA
+finalTableRaw <- t(finalTableRaw)
+
+raw_pca <- prcomp(finalTableRaw)
+percentage <- round(raw_pca$sdev / sum(raw_pca$sdev) * 100, 2)
+percentage <- paste0(colnames(raw_pca$x), "(", as.character(percentage), "%)")
+
+raw_pca <- as.data.frame(raw_pca$x)
+raw_pca$Anatomical_Name <- c("embryo","embryo","embryo","embryo","larva","larva","larva", "pupa","pupa" ,"adult organism","adult organism","adult organism")
+
+p<-ggplot(raw_pca,aes(x=PC1,y=PC2,color=Anatomical_Name, label = rownames(raw_pca) ))
+p<-p+geom_point()+ xlab(percentage[1]) + ylab(percentage[2])+geom_text(size=2)+labs(title="Libraries from SRP002072 experiment")
+p
+
+```
 
 ## Cross annotation with processed data
 
-Now from the output provided by the `getAnnotation()` function you can verify the amount of protein coding genes present, as well as other informations for each sample.
+After having explored the processed data from Bgee we can still cross information from the annotation with processed data.
+From the output provided by the `getAnnotation()` function we can verify the amount of protein coding genes present, as well as other informations for each sample (e.g., genic region present per sample or percentage of intergenic present).
 
 ```{r plot-PC}
 samplesId <- c(unique(libInfo$Library.ID))

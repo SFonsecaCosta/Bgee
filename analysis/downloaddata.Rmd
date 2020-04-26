@@ -3,7 +3,7 @@ title: "Download data"
 author: 
 - name: Sara Fonseca Costa
   affiliation:
-  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+  - &DEE Department of ecology and evolution, University of Lausanne & Swiss Institute of Bioinformatics, Switzerland
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:

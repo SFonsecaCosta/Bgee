@@ -2,7 +2,8 @@
 
 ## Repository
 
-This repository is related to the hands-on part of the SIB Bgee course.
+This repository is related to the hands-on part of the SIB Bgee course, in particular with BgeeDB package (https://www.bioconductor.org/packages/release/bioc/html/BgeeDB.html).
+
 
 The browsable part of the course can be found here: https://sfonsecacosta.github.io/Bgee/. 
 

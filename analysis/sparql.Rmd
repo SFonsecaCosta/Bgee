@@ -3,7 +3,7 @@ title: "SPARQL endpoint"
 author: 
 - name: Sara Fonseca Costa
   affiliation:
-  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+  - &DEE Department of ecology and evolution, University of Lausanne & Swiss Institute of Bioinformatics, Switzerland
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
@@ -148,7 +148,7 @@ genes_musclesTable$results[genes_musclesTable$results$geneId %like% "ENSBTAG", ]
 
 ### Target species where gene is present
 
-Verify if the geneId "ENSBTAG00000014614" with gene name ACTA2 is also present in other species. 
+Verify if the geneId "ENSBTAG00000014614" with gene name ACTA2 is also present in other species.
 
 ```{r gene-present-species} 
 

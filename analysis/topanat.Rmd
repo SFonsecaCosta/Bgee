@@ -3,7 +3,7 @@ title: "TopAnat"
 author: 
 - name: Sara Fonseca Costa
   affiliation:
-  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+  - &DEE Department of ecology and evolution, University of Lausanne & Swiss Institute of Bioinformatics, Switzerland
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
@@ -20,23 +20,28 @@ knitr::opts_chunk$set(echo = TRUE)
 library(BgeeDB)
 library(biomaRt)
 library(ggplot2)
+library(here)
 ```
 
-The TopAnat allows you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns. 
+The TopAnat allows you to make GO-like enrichment of anatomical terms, mapped to genes by expression patterns.
 
-In this example we will use a non-model organism *Bos taurus* (cattle) to run the TopAnat analysis.
+In this section we will use 2 different species, *Drosophila melanogaster* and *Bos taurus* to run the TopAnat analysis.
 
-## Create a Bgee object
+Initially we will use the output results from our previous analysis with *Drosophila melanogaster* to run TopAnat, after that we will run the TopAnat tool with data retrieved from biomart that match specific phenotype from a non-model organism.
+
+## Model organism
+
+### Create a Bgee object
 
 In order to start the analysis in TopAnat you have to create a Bgee object, as demonstrated before in the download data section.
 
 Note that in this example we do not specify any data type in the argument dataType, which means we will use all data types from Bgee.
 
-```{r bgee-object}
-targetSpecies <- Bgee$new(species = "Bos_taurus")
+```{r bgee-object-DM}
+targetDrosophila <- Bgee$new(species = "Drosophila_melanogaster")
 ```
 
-## loadTopAnatData()
+### loadTopAnatData()
 
 After that you should download the data for the reference species in order to allows you to perform the TopAnat analysis. The function loadTopAnatData() loads multiple files for the target species, as:
 
@@ -46,13 +51,92 @@ After that you should download the data for the reference species in order to al
 
 - a gene to organs mapping file
 
-```{r loadTopAnat}
-speciesTopAnatData <- loadTopAnatData(targetSpecies)
+```{r loadTopAnat-DM}
+drosophilaTopAnatData <- loadTopAnatData(targetDrosophila, confidence = "silver", stage = "UBERON:0000092")
 ```
 
-Note that the loadTopAnatData() function allows you to retrieve data from a specific developmental stage by using the `stage` argument and allow you to specify the confidence of the quality of expression calls by using the argument `confidence`.
+Note that the loadTopAnatData() function allows you to retrieve data from a specific developmental stage by using the `stage` argument and allow you to specify the confidence of the quality of expression calls by using the argument `confidence`. In this particular case we use all data and the developmental stage UBERON:0000092.
 
-## Background/foreground genes
+### Background/foreground genes
+
+The next step of the analysis relies on topGO package, for this a list of genes in the foreground and in the background are necessary.
+
+Note that in this case the foreground genes will be the genes detected with high variability between the two samples from the experiment SRP002072 analysed in the processing data section.
+
+### Retrieve info from biomaRt
+
+The initial step is to retrieve information (ensembl gene id) for the target species by using biomart.
+
+```{r biomart-DM}
+ensemblDM <- useMart("ENSEMBL_MART_ENSEMBL", dataset="dmelanogaster_gene_ensembl", host="mar2016.archive.ensembl.org")
+
+# background genes
+universeDM <- getBM(attributes=c("ensembl_gene_id"),mart=ensemblDM)
+
+# foreground genes from the analysis
+foregroundDM <- read.table(file = here("genes_Drosophila_melanogaster.tsv"), header=F, sep="\t")
+foregroundDM <- unlist(foregroundDM, use.names = FALSE)
+```
+
+We will use this list of genes to create our geneList object.
+
+```{r geneList-DM}
+geneListDM <- factor(as.integer(unique(universeDM$ensembl_gene_id) %in% foregroundDM))
+names(geneListDM) <- unique(universeDM$ensembl_gene_id)
+summary(geneListDM)
+```
+
+### topGO object
+
+Create the object with data loaded and the gene list with foreground genes.
+
+```{r topGO-object-DM}
+myTopAnatObject_DM <-  topAnat(drosophilaTopAnatData, geneListDM)
+```
+
+### Enrichment test
+
+After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package.
+
+```{r enrichment-test-DM}
+results_DM <- runTest(myTopAnatObject_DM, algorithm = 'classic', statistic = 'fisher')
+```
+
+### Results
+
+The results can be retrieved by specifying the desired cutoff using the `cutoff` argument. You can also export the table by ordering the desire column specifying that in `ordering` argument.
+
+```{r results-DM}
+tableOver <- makeTable(drosophilaTopAnatData, myTopAnatObject_DM, results_DM)
+## look 
+head(tableOver,4)
+```
+
+
+## Non-Model organism
+
+In this example we will use a non-model organism *Bos taurus* (cattle) to run the TopAnat analysis. 
+
+### Create a Bgee object
+
+In order to start the analysis in TopAnat you have to create a new Bgee object, as demonstrated before.
+
+Note that in this example we do not specify any data type in the argument dataType, as in the previous example, which means that we will use all data types from Bgee once again.
+
+```{r bgee-object-BT}
+targetBT <- Bgee$new(species = "Bos_taurus")
+```
+
+### loadTopAnatData()
+
+After that you should download the data for the reference species in order to allows you to perform the TopAnat analysis. 
+Note that in this case we will not specify any developmental stage or confidence in the calls.
+
+```{r loadTopAnat-BT}
+bostaurusTopAnatData <- loadTopAnatData(targetBT)
+```
+
+### Background/foreground genes
 
 In the next step we will perform the TopAnat analysis with topGO, for this a list of genes in the foreground and in the background are necessary.
 
@@ -62,22 +146,22 @@ In this example we will retrieve genes enriched for expression in muscle.
 
 The initial step is to retrieve information for the target species by using biomart.
 
-```{r biomart}
-ensembl <- useMart("ENSEMBL_MART_ENSEMBL", dataset="btaurus_gene_ensembl", host="mar2016.archive.ensembl.org")
+```{r biomart-BT}
+ensembl_BT <- useMart("ENSEMBL_MART_ENSEMBL", dataset="btaurus_gene_ensembl", host="mar2016.archive.ensembl.org")
 
 # background genes
-universe <- getBM(attributes=c("ensembl_gene_id","phenotype_description"),mart=ensembl)
+universe_BT <- getBM(attributes=c("ensembl_gene_id","phenotype_description"),mart=ensembl_BT)
 
 # select phenotypes related to muscle
-phenotypes <- grep("musc", unique(universe$phenotype_description), value=T)
+phenotypes <- grep("musc", unique(universe_BT$phenotype_description), value=T)
 
 # Foreground genes are those with an annotated phenotype related to muscle.
-myGenes <- unique(universe$ensembl_gene_id[universe$phenotype_description %in% phenotypes])
+myGenes <- unique(universe_BT$ensembl_gene_id[universe_BT$phenotype_description %in% phenotypes])
 
 # list vector with 0 and 1  
-geneList <- factor(as.integer(unique(universe$ensembl_gene_id) %in% myGenes))
-names(geneList) <- unique(universe$ensembl_gene_id)
-summary(geneList)
+geneList_BT <- factor(as.integer(unique(universe_BT$ensembl_gene_id) %in% myGenes))
+names(geneList_BT) <- unique(universe_BT$ensembl_gene_id)
+summary(geneList_BT)
 ```
 
 Note that you have just 7 genes in the foreground that match 'musc' keyword when you extract uniques with `getBM()` function.
@@ -91,36 +175,37 @@ phenotypes <- c("ENSBTAG00000008394", "ENSBTAG00000006030", "ENSBTAG00000015644"
 We will use this list of genes to create our geneList object.
 
 ```{r genes-UniProt-geneList}
-geneList <- factor(as.integer(unique(universe$ensembl_gene_id) %in% phenotypes))
-names(geneList) <- unique(universe$ensembl_gene_id)
-summary(geneList)
+geneList_BT <- factor(as.integer(unique(universe_BT$ensembl_gene_id) %in% phenotypes))
+names(geneList_BT) <- unique(universe_BT$ensembl_gene_id)
+summary(geneList_BT)
 ```
 
-## topGO object
+### topGO object
 
-Create the object with data loaded and the gene list with foreground genes.
+Create the object with data loaded and the gene list with foreground genes (phenotypes from the search in UniProtKB/Swiss-Prot).
 
-```{r topGO-object}
-myTopAnatObject <-  topAnat(speciesTopAnatData, geneList)
+```{r topGO-object-BT}
+myTopAnatObject_BT <-  topAnat(bostaurusTopAnatData, geneList_BT)
 ```
 
-## Enrichment test
+### Enrichment test
 
 After creating the final object, the enrichment analysis is performed by using the statistical tests implemented in topGO package.
+Note that in this example we will use weight in the argument `algorithm`.
 
 ```{r enrichment-test}
-results <- runTest(myTopAnatObject, algorithm = 'weight', statistic = 'fisher')
+results_BT <- runTest(myTopAnatObject_BT, algorithm = 'weight', statistic = 'fisher')
 ```
 
-## Results
+### Results
 
-### Global results
+#### Global results
 
 The results can be retrieved by specifying the desired cutoff using the `cutoff` argument. You can also export the table by ordering the desire column specifying that in `ordering` argument.
 
 
 ```{r global-results, fig.width=14,fig.height=5}
-tableOver <- makeTable(speciesTopAnatData, myTopAnatObject, results)
+tableOver <- makeTable(bostaurusTopAnatData, myTopAnatObject_BT, results_BT)
 
 grph <- ggplot(tableOver, aes(x = reorder(organId, FDR), y = FDR))
 grph <- grph + geom_bar(stat="identity", color='black',fill='gray')
@@ -129,30 +214,20 @@ grph <- grph + theme(axis.text.x=element_blank(),
 grph
 ```
 
-### Retrieve significant genes
+#### Retrieve significant genes
 
 ```{r small-FDR}
-tableOver <- makeTable(speciesTopAnatData, myTopAnatObject, results, cutoff = 0.01, ordering = -8)
+tableOver <- makeTable(bostaurusTopAnatData, myTopAnatObject_BT, results_BT, cutoff = 0.01, ordering = -8)
 
 targetUberon <- c("UBERON:0001134", "UBERON:0001111", "UBERON:0001401", "UBERON:0002000", "UBERON:0034908")
 
-termStat(myTopAnatObject, targetUberon) 
+termStat(myTopAnatObject_BT, targetUberon) 
 ```
 
 In order to use some target gene in the next section (Sparql endpoint), we should retrieve the ensembl IDs for one of the anatomical entities that are significant.
 
 ```{r ensembl-ids}
-annotated <- genesInTerm(myTopAnatObject, targetUberon)[["UBERON:0001134"]]
-annotated[annotated %in% sigGenes(myTopAnatObject)]
+annotated <- genesInTerm(myTopAnatObject_BT, targetUberon)[["UBERON:0001134"]]
+annotated[annotated %in% sigGenes(myTopAnatObject_BT)]
 ```
-
-
-
-
-
-
-
-
-
-
 

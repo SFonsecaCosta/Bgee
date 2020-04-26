@@ -27,6 +27,8 @@ output:
     - All data 
     - Per experiment
     - Correlation between samples (same anatomical entity & developmental stage)
+    - Gene variability
+    - Experiment PCA
     - Cross annotation with processed data
    
 - [TopAnat](topanat.html):

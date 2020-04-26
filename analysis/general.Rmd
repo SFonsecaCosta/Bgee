@@ -3,7 +3,7 @@ title: "Software & Data"
 author: 
 - name: Sara Fonseca Costa
   affiliation:
-  - &DEE Department of ecology and evolution, University of Lausanne, Switzerland
+  - &DEE Department of ecology and evolution, University of Lausanne & Swiss Institute of Bioinformatics, Switzerland
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
@@ -50,7 +50,7 @@ Non-model organism:
 - *Bos Taurus* (BT)
 
 In more details: the steps Extract information, Download data and Processing data we will use DM data.
-For the TopAnat and Sparql endpoint we will use BT data.
+For the TopAnat we will use DM and BT, in the end for the Sparql endpoint we will use BT data.
 
 
 ## References
